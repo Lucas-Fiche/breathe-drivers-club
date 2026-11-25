@@ -1,5 +1,27 @@
 /// Categoria de uma meta de vida.
-enum GoalCategory { estudos, financas, saude, trabalho, pessoal }
+enum GoalCategory { estudos, financas, saude, trabalho, pessoal, familia, outro }
+
+extension GoalCategoryX on GoalCategory {
+  /// Rótulo em português para exibição.
+  String get label {
+    switch (this) {
+      case GoalCategory.estudos:
+        return 'Estudos';
+      case GoalCategory.financas:
+        return 'Dinheiro';
+      case GoalCategory.saude:
+        return 'Saúde';
+      case GoalCategory.trabalho:
+        return 'Trabalho';
+      case GoalCategory.pessoal:
+        return 'Pessoal';
+      case GoalCategory.familia:
+        return 'Família';
+      case GoalCategory.outro:
+        return 'Outro';
+    }
+  }
+}
 
 /// Meta de vida do trabalhador (ex.: concluir o ensino médio).
 ///

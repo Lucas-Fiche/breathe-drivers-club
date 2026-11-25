@@ -133,6 +133,30 @@ void main() {
       expect(c.read(profileProvider).profile.points, maxed);
     });
 
+    test('adicionar meta entra na lista ativa e ignora título vazio', () {
+      final ProviderContainer c = makeContainer();
+      final int before = c.read(planProvider).goals.length;
+
+      c.read(planProvider.notifier).addGoal(
+            title: '  Tirar a CNH tipo D  ',
+            category: GoalCategory.outro,
+            totalSteps: 4,
+          );
+      expect(c.read(planProvider).goals.length, before + 1);
+      final LifeGoal added = c.read(planProvider).goals.last;
+      expect(added.title, 'Tirar a CNH tipo D');
+      expect(added.completedSteps, 0);
+      expect(added.isComplete, isFalse);
+
+      // Título vazio não adiciona.
+      c.read(planProvider.notifier).addGoal(
+            title: '   ',
+            category: GoalCategory.outro,
+            totalSteps: 3,
+          );
+      expect(c.read(planProvider).goals.length, before + 1);
+    });
+
     test('meta diária respeita os limites', () {
       final ProviderContainer c = makeContainer();
       final PlanNotifier plan = c.read(planProvider.notifier);

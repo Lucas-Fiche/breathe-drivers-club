@@ -63,6 +63,24 @@ class PlanNotifier extends Notifier<PlanState> {
     ref.read(profileProvider.notifier).addPoints(PointRewards.perGoalStep);
   }
 
+  /// Adiciona uma nova meta de vida (começa em 0 etapas concluídas).
+  void addGoal({
+    required String title,
+    required GoalCategory category,
+    required int totalSteps,
+  }) {
+    final String trimmed = title.trim();
+    if (trimmed.isEmpty || totalSteps < 1) return;
+    final LifeGoal goal = LifeGoal(
+      id: 'goal-${DateTime.now().microsecondsSinceEpoch}',
+      title: trimmed,
+      category: category,
+      totalSteps: totalSteps,
+      completedSteps: 0,
+    );
+    state = state.copyWith(goals: <LifeGoal>[...state.goals, goal]);
+  }
+
   /// Define a meta diária de corridas, respeitando os limites.
   void setDailyTarget(int target) {
     final int clamped = target.clamp(DailyGoalLimits.min, DailyGoalLimits.max);
