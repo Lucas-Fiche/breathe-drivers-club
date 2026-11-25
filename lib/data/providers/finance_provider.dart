@@ -69,10 +69,36 @@ class FinanceNotifier extends Notifier<FinanceState> {
     );
   }
 
+  /// Muda a meta do cofrinho (ignora valores não positivos).
+  void setPiggyGoal(double goal) {
+    if (goal <= 0) return;
+    state = state.copyWith(piggyBank: state.piggyBank.copyWith(goal: goal));
+  }
+
   /// Adiciona uma transação (mais recente primeiro).
   void addTransaction(Transaction transaction) {
     state = state.copyWith(
       transactions: <Transaction>[transaction, ...state.transactions],
+    );
+  }
+
+  /// Registra uma nova movimentação (ganho ou gasto). Ignora valor não positivo.
+  void registerTransaction({
+    required TransactionType type,
+    required String category,
+    required double amount,
+    String description = '',
+  }) {
+    if (amount <= 0) return;
+    addTransaction(
+      Transaction(
+        id: 'tx-${DateTime.now().microsecondsSinceEpoch}',
+        type: type,
+        category: category,
+        amount: amount,
+        date: DateTime.now(),
+        description: description.trim(),
+      ),
     );
   }
 }

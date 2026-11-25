@@ -49,6 +49,29 @@ String formatDistance(num meters) {
   return '$whole,$decimal km';
 }
 
+const List<String> _monthsShort = <String>[
+  'jan', 'fev', 'mar', 'abr', 'mai', 'jun',
+  'jul', 'ago', 'set', 'out', 'nov', 'dez',
+];
+
+/// Formata uma data como `25/11`.
+String formatShortDate(DateTime date) {
+  final String day = date.day.toString().padLeft(2, '0');
+  final String month = date.month.toString().padLeft(2, '0');
+  return '$day/$month';
+}
+
+/// Cabeçalho de dia relativo: `Hoje`, `Ontem` ou `25 de nov`.
+String formatDayHeader(DateTime date, {DateTime? now}) {
+  final DateTime reference = now ?? DateTime.now();
+  final DateTime today = DateTime(reference.year, reference.month, reference.day);
+  final DateTime day = DateTime(date.year, date.month, date.day);
+  final int diff = today.difference(day).inDays;
+  if (diff == 0) return 'Hoje';
+  if (diff == 1) return 'Ontem';
+  return '${date.day} de ${_monthsShort[date.month - 1]}';
+}
+
 /// Formata uma duração como `5h20`, `45min` ou `2h`.
 ///
 /// A partir de 1 hora usa o formato `<h>h<mm>`, omitindo os minutos quando

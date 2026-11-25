@@ -210,6 +210,39 @@ void main() {
       expect(f.saved, 2720);
       expect(f.expensesByCategory['Combustível'], 700);
     });
+
+    test('registrar gasto atualiza total e categorias na hora', () {
+      final ProviderContainer c = makeContainer();
+      c.read(financeProvider.notifier).registerTransaction(
+            type: TransactionType.expense,
+            category: 'Combustível',
+            amount: 100,
+            description: 'teste',
+          );
+      final FinanceState f = c.read(financeProvider);
+      expect(f.expenses, 2240);
+      expect(f.expensesByCategory['Combustível'], 800);
+      expect(f.transactions.first.description, 'teste');
+    });
+
+    test('registrar ganho entra no total de ganhos', () {
+      final ProviderContainer c = makeContainer();
+      c.read(financeProvider.notifier).registerTransaction(
+            type: TransactionType.income,
+            category: 'Gorjeta',
+            amount: 40,
+          );
+      expect(c.read(financeProvider).income, 4900);
+    });
+
+    test('editar meta do cofrinho muda o alvo; valor inválido é ignorado', () {
+      final ProviderContainer c = makeContainer();
+      c.read(financeProvider.notifier).setPiggyGoal(800);
+      expect(c.read(financeProvider).piggyBank.goal, 800);
+
+      c.read(financeProvider.notifier).setPiggyGoal(0);
+      expect(c.read(financeProvider).piggyBank.goal, 800);
+    });
   });
 
   group('comunidade', () {
