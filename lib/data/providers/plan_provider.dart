@@ -71,6 +71,17 @@ class PlanNotifier extends Notifier<PlanState> {
     );
   }
 
+  /// Registra quantas corridas já foram feitas hoje (nunca negativo).
+  ///
+  /// Apenas acompanhamento: não concede pontos (o reconhecimento vem de pausas,
+  /// metas e questionário, nunca de fazer mais corridas).
+  void setCompletedRides(int value) {
+    final int safe = value < 0 ? 0 : value;
+    state = state.copyWith(
+      dailyGoal: state.dailyGoal.copyWith(completedRides: safe),
+    );
+  }
+
   /// Registra o humor atual (sem culpa, só para a pessoa). Credita pontos.
   void registerMood(Mood mood) {
     state = state.copyWith(

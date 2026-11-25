@@ -15,12 +15,16 @@ class ProgressBarLabeled extends StatelessWidget {
     this.label,
     this.showPercent = true,
     this.height = 10,
+    this.color = AppColors.primary,
   });
 
   final double value;
   final String? label;
   final bool showPercent;
   final double height;
+
+  /// Cor do preenchimento (o trilho é sempre [AppColors.mintTrack]).
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +64,7 @@ class ProgressBarLabeled extends StatelessWidget {
             value: clamped,
             minHeight: height,
             backgroundColor: AppColors.mintTrack,
-            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+            valueColor: AlwaysStoppedAnimation<Color>(color),
           ),
         ),
       ],
