@@ -9,6 +9,7 @@ class ConsentSettings {
     this.shareFinances = false,
     this.shareMood = true,
     this.shareSurvey = true,
+    this.shareUsage = true,
   });
 
   /// Localização aproximada (para pontos de apoio próximos).
@@ -26,12 +27,16 @@ class ConsentSettings {
   /// Respostas do questionário.
   final bool shareSurvey;
 
+  /// Dados de uso do app (telas visitadas, frequência).
+  final bool shareUsage;
+
   ConsentSettings copyWith({
     bool? shareLocation,
     bool? shareWorkHours,
     bool? shareFinances,
     bool? shareMood,
     bool? shareSurvey,
+    bool? shareUsage,
   }) {
     return ConsentSettings(
       shareLocation: shareLocation ?? this.shareLocation,
@@ -39,6 +44,7 @@ class ConsentSettings {
       shareFinances: shareFinances ?? this.shareFinances,
       shareMood: shareMood ?? this.shareMood,
       shareSurvey: shareSurvey ?? this.shareSurvey,
+      shareUsage: shareUsage ?? this.shareUsage,
     );
   }
 }

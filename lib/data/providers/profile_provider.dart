@@ -59,6 +59,26 @@ class ProfileNotifier extends Notifier<ProfileState> {
   void updateConsent(ConsentSettings consent) {
     state = state.copyWith(consent: consent);
   }
+
+  /// Atualiza campos do perfil a partir do onboarding. Nada é obrigatório;
+  /// só os campos informados são alterados.
+  void updateProfile({
+    String? name,
+    DriverType? type,
+    String? vehicle,
+    int? yearsOnApp,
+    String? city,
+  }) {
+    state = state.copyWith(
+      profile: state.profile.copyWith(
+        name: name,
+        type: type,
+        vehicle: vehicle,
+        yearsOnApp: yearsOnApp,
+        city: city,
+      ),
+    );
+  }
 }
 
 final NotifierProvider<ProfileNotifier, ProfileState> profileProvider =
