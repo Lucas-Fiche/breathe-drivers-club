@@ -6,6 +6,7 @@
 // flutter_test trata erros do framework como falha.
 
 import 'package:breathe_drivers_club/app/health_limits.dart';
+import 'package:breathe_drivers_club/core/widgets/widgets.dart';
 import 'package:breathe_drivers_club/data/providers/providers.dart';
 import 'package:breathe_drivers_club/features/benefits/widgets/how_to_earn_sheet.dart';
 import 'package:breathe_drivers_club/features/community/widgets/comments_sheet.dart';
@@ -228,5 +229,45 @@ void main() {
         await unmountApp(tester);
       });
     }
+  });
+
+  // Avatar do perfil no cabeçalho de todas as telas (leva a /mais), menos na
+  // própria tela Mais, no onboarding e nas telas cheias sem cabeçalho.
+  group('avatar do perfil no cabeçalho', () {
+    const Set<String> semAvatar = <String>{
+      '/acesso', // tela de entrada, sem cabeçalho
+      '/consentimento', // onboarding
+      '/perfil-inicial', // onboarding
+      '/inicio/pausa', // pausa guiada imersiva, sem cabeçalho
+      '/mais', // já é a tela do perfil
+      '/componentes', // galeria do design system (cabeçalho é só amostra)
+    };
+    for (final _RouteCase route in _allRoutes) {
+      final bool expected = !semAvatar.contains(route.location);
+      testWidgets(
+        '${route.location} ${expected ? 'mostra' : 'não mostra'} o avatar',
+        (WidgetTester tester) async {
+          await pumpAppAt(tester, route.location, settle: route.settle);
+          expect(
+            find.byType(ProfileAvatarButton),
+            expected ? findsOneWidget : findsNothing,
+          );
+          await unmountApp(tester);
+        },
+      );
+    }
+
+    testWidgets('tocar no avatar em Finanças abre Mais', (tester) async {
+      await pumpAppAt(tester, '/financas');
+      await tester.tap(find.byType(ProfileAvatarButton));
+      // Espera a janela dos toques rápidos (gesto escondido) e a transição.
+      await tester.pump(const Duration(milliseconds: 400));
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Perfil, privacidade e outros recursos'),
+        findsOneWidget,
+      );
+      await unmountApp(tester);
+    });
   });
 }

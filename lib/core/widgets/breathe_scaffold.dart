@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/theme/app_spacing.dart';
 import 'breathe_header.dart';
+import 'profile_avatar_button.dart';
 
 /// Scaffold padrão das telas: [BreatheHeader] no topo e o [body] abaixo.
 ///
@@ -21,6 +22,7 @@ class BreatheScaffold extends StatelessWidget {
     this.scrollable = false,
     this.floatingActionButton,
     this.onBack,
+    this.showProfile = true,
   });
 
   final String title;
@@ -32,6 +34,11 @@ class BreatheScaffold extends StatelessWidget {
   final bool scrollable;
   final Widget? floatingActionButton;
   final VoidCallback? onBack;
+
+  /// Mostra o avatar do perfil no cabeçalho (padrão em todas as telas).
+  /// Desligado na própria tela Mais e no onboarding. Uma [action] própria
+  /// tem prioridade sobre o avatar.
+  final bool showProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,8 @@ class BreatheScaffold extends StatelessWidget {
           BreatheHeader(
             title: title,
             subtitle: subtitle,
-            action: action,
+            action:
+                action ?? (showProfile ? const ProfileAvatarButton() : null),
             onHelp: effectiveOnHelp,
             showHelp: showHelp,
             onBack: onBack,

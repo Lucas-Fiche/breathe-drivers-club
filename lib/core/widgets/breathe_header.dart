@@ -11,7 +11,8 @@ import 'secret_gesture.dart';
 /// 1) logo do volante + "BREATHE DRIVERS CLUB" (caixa alta, espaçado);
 /// 2) [title] da tela; 3) [subtitle] curto (opcional).
 ///
-/// À direita da marca ficam a [action] opcional (ex.: avatar do "Mais") e o
+/// À direita da marca ficam a [action] (no [BreatheScaffold], por padrão, o
+/// avatar do perfil, que leva a `/mais`) e o
 /// ícone de Ajuda/acolhimento (coral), presente em todas as telas via
 /// [onHelp] — oculto apenas quando [showHelp] for falso (ex.: tela de acesso).
 class BreatheHeader extends StatelessWidget {

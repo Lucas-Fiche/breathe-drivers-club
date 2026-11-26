@@ -8,6 +8,7 @@ export 'device_frame.dart';
 export 'empty_state.dart';
 export 'pill_chip.dart';
 export 'primary_button.dart';
+export 'profile_avatar_button.dart';
 export 'progress_bar_labeled.dart';
 export 'secondary_button.dart';
 export 'secret_gesture.dart';

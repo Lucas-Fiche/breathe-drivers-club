@@ -18,6 +18,7 @@ class MoreScreen extends StatelessWidget {
       title: 'Mais',
       subtitle: 'Perfil, privacidade e outros recursos',
       onBack: () => popOrGo(context),
+      showProfile: false, // já é a tela do perfil
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

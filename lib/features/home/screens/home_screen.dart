@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
-import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/providers/providers.dart';
 import '../widgets/breathe_break_card.dart';
@@ -15,8 +12,8 @@ import '../widgets/mood_card.dart';
 import '../widgets/recognition_card.dart';
 
 /// Tela Início (`/inicio`): resumo do dia, meta, humor, pausa, reconhecimento e
-/// atalhos. O cabeçalho traz saudação pelo horário e o avatar que leva a
-/// `/mais`.
+/// atalhos. O cabeçalho traz a saudação pelo horário (o avatar do perfil vem
+/// do [BreatheScaffold], como em todas as telas).
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -28,10 +25,6 @@ class HomeScreen extends ConsumerWidget {
     return BreatheScaffold(
       title: '${_greeting()}, $firstName',
       subtitle: 'Vamos fazer um dia equilibrado',
-      action: _ProfileAvatar(
-        initials: initialsOf(ref.watch(profileProvider).profile.name),
-        onTap: () => context.push('/mais'),
-      ),
       scrollable: true,
       body: const Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -58,40 +51,5 @@ class HomeScreen extends ConsumerWidget {
     if (hour < 12) return 'Bom dia';
     if (hour < 18) return 'Boa tarde';
     return 'Boa noite';
-  }
-}
-
-/// Avatar com as iniciais, no canto do cabeçalho. Um toque abre `/mais`;
-/// 5 toques rápidos abrem o modo apresentação (gesto escondido).
-class _ProfileAvatar extends StatelessWidget {
-  const _ProfileAvatar({required this.initials, required this.onTap});
-
-  final String initials;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: 'Perfil e mais opções',
-      child: SecretTapDetector(
-        onTap: onTap,
-        child: Container(
-          width: 48,
-          height: 48,
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(
-            color: AppColors.mint,
-            shape: BoxShape.circle,
-          ),
-          child: Text(
-            initials,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-        ),
-      ),
-    );
   }
 }

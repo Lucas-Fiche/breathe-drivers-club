@@ -122,6 +122,7 @@ class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
       title: 'Seu perfil',
       subtitle: 'Leva menos de 1 minuto. Nada é obrigatório.',
       onBack: _back,
+      showProfile: false, // onboarding: a pessoa ainda está entrando
       body: Column(
         children: <Widget>[
           _ProgressStrip(

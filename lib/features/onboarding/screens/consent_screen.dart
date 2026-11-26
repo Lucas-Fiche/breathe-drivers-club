@@ -46,6 +46,7 @@ class _ConsentScreenState extends ConsumerState<ConsentScreen> {
     return BreatheScaffold(
       title: 'Privacidade e consentimento',
       subtitle: 'Você escolhe o que compartilha',
+      showProfile: false, // onboarding: a pessoa ainda está entrando
       scrollable: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
