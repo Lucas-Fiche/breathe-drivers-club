@@ -8,6 +8,39 @@ import 'app_colors.dart';
 /// Escala (CLAUDE.md): título de tela 22–24 semibold; título de card 16–17
 /// semibold; corpo 14–15; números de destaque 32–40 bold em [AppColors.primary].
 abstract final class AppTypography {
+  /// Família usada quando [useGoogleFonts] é falso.
+  static const String fontFamily = 'Inter';
+
+  /// No app, a Inter vem do google_fonts. Nos testes, fica falso: a família
+  /// 'Inter' é registrada à mão (sem rede), com as mesmas medidas do tema.
+  static bool useGoogleFonts = true;
+
+  static TextStyle _inter({
+    required double fontSize,
+    required FontWeight fontWeight,
+    required Color color,
+    double? height,
+    double? letterSpacing,
+  }) {
+    if (useGoogleFonts) {
+      return GoogleFonts.inter(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color,
+        height: height,
+        letterSpacing: letterSpacing,
+      );
+    }
+    return TextStyle(
+      fontFamily: fontFamily,
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      height: height,
+      letterSpacing: letterSpacing,
+    );
+  }
+
   static const FontWeight _regular = FontWeight.w400;
   static const FontWeight _medium = FontWeight.w500;
   static const FontWeight _semibold = FontWeight.w600;
@@ -17,37 +50,39 @@ abstract final class AppTypography {
   /// texto padrão. Em superfícies escuras (cabeçalho) as cores são
   /// sobrescritas localmente via `copyWith(color: ...)`.
   static TextTheme textTheme() {
-    final TextTheme base = GoogleFonts.interTextTheme();
+    final TextTheme base = useGoogleFonts
+        ? GoogleFonts.interTextTheme()
+        : ThemeData.light().textTheme.apply(fontFamily: fontFamily);
     return base.copyWith(
       // Números de destaque (ex.: "R$ 120", "10 corridas").
-      displaySmall: GoogleFonts.inter(
+      displaySmall: _inter(
         fontSize: 40,
         fontWeight: _bold,
         color: AppColors.primary,
         height: 1.1,
       ),
-      headlineMedium: GoogleFonts.inter(
+      headlineMedium: _inter(
         fontSize: 32,
         fontWeight: _bold,
         color: AppColors.primary,
         height: 1.1,
       ),
       // Título de tela (dentro do cabeçalho).
-      titleLarge: GoogleFonts.inter(
+      titleLarge: _inter(
         fontSize: 23,
         fontWeight: _semibold,
         color: AppColors.textPrimary,
         height: 1.2,
       ),
       // Título de card.
-      titleMedium: GoogleFonts.inter(
+      titleMedium: _inter(
         fontSize: 17,
         fontWeight: _semibold,
         color: AppColors.textPrimary,
         height: 1.25,
       ),
       // Marca "BREATHE DRIVERS CLUB" (caixa alta, espaçada) e rótulos pequenos.
-      titleSmall: GoogleFonts.inter(
+      titleSmall: _inter(
         fontSize: 13,
         fontWeight: _semibold,
         color: AppColors.textPrimary,
@@ -55,32 +90,32 @@ abstract final class AppTypography {
         height: 1.2,
       ),
       // Corpo.
-      bodyLarge: GoogleFonts.inter(
+      bodyLarge: _inter(
         fontSize: 15,
         fontWeight: _regular,
         color: AppColors.textPrimary,
         height: 1.4,
       ),
-      bodyMedium: GoogleFonts.inter(
+      bodyMedium: _inter(
         fontSize: 14,
         fontWeight: _regular,
         color: AppColors.textSecondary,
         height: 1.4,
       ),
-      bodySmall: GoogleFonts.inter(
+      bodySmall: _inter(
         fontSize: 12.5,
         fontWeight: _regular,
         color: AppColors.textSecondary,
         height: 1.3,
       ),
       // Texto de botões e chips.
-      labelLarge: GoogleFonts.inter(
+      labelLarge: _inter(
         fontSize: 15,
         fontWeight: _semibold,
         color: AppColors.textPrimary,
         height: 1.1,
       ),
-      labelMedium: GoogleFonts.inter(
+      labelMedium: _inter(
         fontSize: 13,
         fontWeight: _medium,
         color: AppColors.textSecondary,

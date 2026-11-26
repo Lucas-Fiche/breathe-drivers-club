@@ -139,9 +139,11 @@ class _PointsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  '+${PointRewards.perSurvey} pontos',
+                AnimatedNumber(
+                  value: PointRewards.perSurvey,
+                  format: (num v) => '+${v.round()} pontos',
                   style: textTheme.headlineMedium,
+                  animateOnStart: true,
                 ),
                 Text(
                   'Obrigado por responder! Agora você tem $total pontos.',

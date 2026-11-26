@@ -15,6 +15,11 @@ void main() {
       }
     });
 
+    test('saudação usa o nome da persona ativa', () {
+      expect(assistantGreeting('Joana'), startsWith('Oi, Joana!'));
+      expect(assistantGreeting('Carlos'), startsWith('Oi, Carlos!'));
+    });
+
     test('estudos leva aos programas de estudo', () {
       expect(
         kAssistantTopics['estudos']!.action!.route,

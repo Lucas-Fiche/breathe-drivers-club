@@ -69,7 +69,10 @@ class BreatheHeader extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
               ],
               // Toque longo no logo: gesto escondido (modo apresentação).
+              // Fica fora da árvore de acessibilidade: é um atalho só de quem
+              // apresenta, não uma função do app.
               GestureDetector(
+                excludeFromSemantics: true,
                 onLongPress: () =>
                     SecretGestureScope.maybeOf(context)?.call(context),
                 child: const BreatheLogo(size: 26),
@@ -78,7 +81,7 @@ class BreatheHeader extends StatelessWidget {
               Expanded(
                 child: Text(
                   'BREATHE DRIVERS CLUB',
-                  style: textTheme.titleSmall?.copyWith(color: Colors.white),
+                  style: textTheme.titleSmall?.copyWith(color: AppColors.onDark),
                 ),
               ),
               if (action != null) ...<Widget>[
@@ -92,7 +95,7 @@ class BreatheHeader extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
           Text(
             title,
-            style: textTheme.titleLarge?.copyWith(color: Colors.white),
+            style: textTheme.titleLarge?.copyWith(color: AppColors.onDark),
           ),
           if (subtitle != null) ...<Widget>[
             const SizedBox(height: AppSpacing.xs),
@@ -121,7 +124,7 @@ class _BackButton extends StatelessWidget {
       constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
       tooltip: 'Voltar',
       padding: EdgeInsets.zero,
-      icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+      icon: const Icon(Icons.arrow_back_rounded, color: AppColors.onDark),
     );
   }
 }
@@ -140,7 +143,7 @@ class _HelpButton extends StatelessWidget {
       constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
       tooltip: 'Ajuda e acolhimento',
       style: IconButton.styleFrom(
-        backgroundColor: Colors.white.withValues(alpha: 0.10),
+        backgroundColor: AppColors.onDark.withValues(alpha: 0.10),
         shape: const CircleBorder(),
       ),
       icon: const Icon(

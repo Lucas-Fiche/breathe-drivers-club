@@ -49,7 +49,7 @@ class ChatBubble extends StatelessWidget {
       child: Text(
         text,
         style: textTheme.bodyLarge?.copyWith(
-          color: isUser ? Colors.white : AppColors.textPrimary,
+          color: isUser ? AppColors.onDark : AppColors.textPrimary,
         ),
       ),
     );

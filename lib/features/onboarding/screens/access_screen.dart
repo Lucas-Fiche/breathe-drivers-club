@@ -82,7 +82,7 @@ class _AccessHero extends StatelessWidget {
           const SizedBox(height: AppSpacing.xl),
           Text(
             'Breathe',
-            style: textTheme.displaySmall?.copyWith(color: Colors.white),
+            style: textTheme.displaySmall?.copyWith(color: AppColors.onDark),
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
@@ -95,7 +95,7 @@ class _AccessHero extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
           Text(
             'Respire. Planeje. Siga em frente.',
-            style: textTheme.bodyLarge?.copyWith(color: Colors.white),
+            style: textTheme.bodyLarge?.copyWith(color: AppColors.onDark),
           ),
         ],
       ),
@@ -201,18 +201,19 @@ class _ConsentCheck extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        SizedBox(
-          width: 28,
-          height: 28,
+        // Área de toque de 48 px e rótulo para leitor de tela.
+        SizedBox.square(
+          dimension: 48,
           child: Checkbox(
             value: accepted,
+            semanticLabel: 'Li e aceito como meus dados são usados',
             onChanged: (bool? v) => onChanged(v ?? false),
           ),
         ),
-        const SizedBox(width: AppSpacing.md),
+        const SizedBox(width: AppSpacing.xs),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: const EdgeInsets.only(top: AppSpacing.md),
             child: Text.rich(
               TextSpan(
                 style: bodyStyle,

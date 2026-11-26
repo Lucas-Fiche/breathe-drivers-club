@@ -86,10 +86,10 @@ class _Shortcut extends StatelessWidget {
                     ),
                     child: Text(
                       badge!,
-                      style: textTheme.labelMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 11,
+                      // Texto escuro sobre coral: contraste 6,7:1.
+                      style: textTheme.labelSmall?.copyWith(
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

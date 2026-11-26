@@ -20,7 +20,7 @@ class ChatInputArea extends StatelessWidget {
   final VoidCallback onSendText;
 
   /// Altura da faixa de chips (pílulas com área de toque confortável).
-  static const double _chipsHeight = 40;
+  static const double _chipsHeight = 48;
 
   @override
   Widget build(BuildContext context) {

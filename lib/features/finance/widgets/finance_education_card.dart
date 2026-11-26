@@ -126,7 +126,7 @@ class _Concept extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(title, style: textTheme.titleMedium?.copyWith(color: AppColors.primary)),
-          const SizedBox(height: 2),
+          const SizedBox(height: AppSpacing.xxs),
           Text(text, style: textTheme.bodyMedium),
         ],
       ),

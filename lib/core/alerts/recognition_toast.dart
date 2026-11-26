@@ -93,7 +93,7 @@ class _RecognitionToastState extends State<RecognitionToast>
                         ],
                       ),
                       style: textTheme.labelLarge?.copyWith(
-                        color: Colors.white,
+                        color: AppColors.onDark,
                       ),
                     ),
                   ),

@@ -64,8 +64,8 @@ class _LimitHint extends StatelessWidget {
           Expanded(
             child: Text(
               'Metas acima de ${HealthLimits.dailyRidesGuidanceThreshold} '
-              'corridas costumam exigir jornadas longas. Tudo bem mirar alto — '
-              'só lembre de respeitar seus limites e descansar. Você decide.',
+              'corridas costumam exigir jornadas longas e cansam mais. Se der, '
+              'prefira uma meta que caiba no seu dia, com pausas. Você decide.',
               style: textTheme.bodyMedium?.copyWith(color: AppColors.textPrimary),
             ),
           ),

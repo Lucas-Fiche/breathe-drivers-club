@@ -6,7 +6,7 @@ import '../../../app/theme/app_spacing.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/providers/providers.dart';
 
-/// Card "Motorista destaque": selo baseado em metas e autocuidado (nunca em
+/// Card "Destaque do mês": selo baseado em metas e autocuidado (nunca em
 /// volume de corridas), com o progresso rumo ao selo do mês.
 class HighlightDriverCard extends ConsumerWidget {
   const HighlightDriverCard({super.key});
@@ -35,7 +35,7 @@ class HighlightDriverCard extends ConsumerWidget {
               ),
               const SizedBox(width: AppSpacing.md),
               Expanded(
-                child: Text('Motorista destaque', style: textTheme.titleMedium),
+                child: Text('Destaque do mês', style: textTheme.titleMedium),
               ),
             ],
           ),

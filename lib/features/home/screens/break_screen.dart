@@ -112,7 +112,7 @@ class _BreakScreenState extends ConsumerState<BreakScreen>
                 Text(
                   '$secondsLeft s',
                   style: textTheme.titleLarge?.copyWith(
-                    color: Colors.white.withValues(alpha: 0.85),
+                    color: AppColors.onDark.withValues(alpha: 0.85),
                   ),
                 ),
               ],
@@ -124,14 +124,14 @@ class _BreakScreenState extends ConsumerState<BreakScreen>
           'Pare em um local seguro antes de começar.',
           textAlign: TextAlign.center,
           style: textTheme.bodyMedium?.copyWith(
-            color: Colors.white.withValues(alpha: 0.6),
+            color: AppColors.onDark.withValues(alpha: 0.6),
           ),
         ),
         const Spacer(),
         TextButton(
           onPressed: _dismiss,
           style: TextButton.styleFrom(
-            foregroundColor: Colors.white.withValues(alpha: 0.7),
+            foregroundColor: AppColors.onDark.withValues(alpha: 0.7),
           ),
           child: const Text('Encerrar'),
         ),
@@ -182,7 +182,7 @@ class _BreathingCircle extends StatelessWidget {
             height: 280,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withValues(alpha: 0.06),
+              color: AppColors.onDark.withValues(alpha: 0.06),
             ),
           ),
           // Círculo que respira.
@@ -235,7 +235,7 @@ class _Completed extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
             Text(
               'Pausa concluída',
-              style: textTheme.titleLarge?.copyWith(color: Colors.white),
+              style: textTheme.titleLarge?.copyWith(color: AppColors.onDark),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
@@ -247,7 +247,7 @@ class _Completed extends StatelessWidget {
               'Cuidar de você também é trabalho.',
               textAlign: TextAlign.center,
               style: textTheme.bodyMedium?.copyWith(
-                color: Colors.white.withValues(alpha: 0.7),
+                color: AppColors.onDark.withValues(alpha: 0.7),
               ),
             ),
           ],

@@ -112,7 +112,7 @@ class SupportPointTile extends StatelessWidget {
                     Text(
                       'Toque para iniciar',
                       style: textTheme.bodyMedium?.copyWith(
-                        color: AppColors.coral,
+                        color: AppColors.primary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

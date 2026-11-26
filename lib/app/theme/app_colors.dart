@@ -40,4 +40,25 @@ abstract final class AppColors {
 
   /// Contorno de cards e pílulas.
   static const Color border = Color(0xFFECE6DE);
+
+  /// Texto e ícones sobre fundos escuros (primaryDark, primary).
+  static const Color onDark = Color(0xFFFFFFFF);
+
+  /// Erros de formulário (pouco usado: o app evita vermelho alarmante).
+  static const Color error = Color(0xFFC0392B);
+
+  /// Base das sombras (sempre com transparência).
+  static const Color shadow = Color(0xFF000000);
+
+  /// Transparente (ex.: indicador de aba inativa).
+  static const Color transparent = Color(0x00000000);
+
+  // Mapa ilustrado dos pontos de apoio (só decoração do desenho).
+  static const Color mapStreet = Color(0xFFFCFAF6);
+  static const Color mapBlock = Color(0xFFEAE3D7);
+  static const Color mapGreen = Color(0xFFC3E1C6);
+  static const Color mapWater = Color(0xFFBFE1EC);
+
+  /// Ponto "Você" no mapa.
+  static const Color mapYou = Color(0xFF3B82F6);
 }

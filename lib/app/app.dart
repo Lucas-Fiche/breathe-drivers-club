@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../core/alerts/app_alerts_overlay.dart';
 import '../core/widgets/device_frame.dart';
@@ -13,21 +14,25 @@ import 'theme/app_theme.dart';
 ///   reconhecimento), dentro da moldura;
 /// - o gesto escondido que abre o modo apresentação.
 class BreatheApp extends StatelessWidget {
-  const BreatheApp({super.key});
+  const BreatheApp({super.key, this.router});
+
+  /// Roteador a usar (padrão: [appRouter]). Os testes passam um novo.
+  final GoRouter? router;
 
   @override
   Widget build(BuildContext context) {
+    final GoRouter router = this.router ?? appRouter;
     return MaterialApp.router(
       title: 'Breathe Drivers Club',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
-      routerConfig: appRouter,
+      routerConfig: router,
       builder: (BuildContext context, Widget? child) {
         return DeviceFrame(
           child: SecretGestureScope(
             onTrigger: showDemoSheet,
             child: AppAlertsOverlay(
-              router: appRouter,
+              router: router,
               child: child ?? const SizedBox.shrink(),
             ),
           ),

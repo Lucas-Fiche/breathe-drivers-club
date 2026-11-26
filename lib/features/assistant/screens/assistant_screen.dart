@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/app_spacing.dart';
 import '../../../core/utils/navigation.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../data/providers/providers.dart';
 import '../assistant_script.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/chat_input_area.dart';
@@ -30,16 +32,21 @@ class _Msg {
 }
 
 /// Tela Assistente (`/assistente`): chat roteirizado, sem IA real.
-class AssistantScreen extends StatefulWidget {
+class AssistantScreen extends ConsumerStatefulWidget {
   const AssistantScreen({super.key});
 
   @override
-  State<AssistantScreen> createState() => _AssistantScreenState();
+  ConsumerState<AssistantScreen> createState() => _AssistantScreenState();
 }
 
-class _AssistantScreenState extends State<AssistantScreen> {
-  final List<_Msg> _messages = <_Msg>[
-    const _Msg.assistant(kAssistantGreeting),
+class _AssistantScreenState extends ConsumerState<AssistantScreen> {
+  /// Começa com a saudação pelo nome da persona ativa (Carlos ou Joana).
+  late final List<_Msg> _messages = <_Msg>[
+    _Msg.assistant(
+      assistantGreeting(
+        ref.read(profileProvider).profile.name.split(' ').first,
+      ),
+    ),
   ];
   final TextEditingController _input = TextEditingController();
   final ScrollController _scroll = ScrollController();

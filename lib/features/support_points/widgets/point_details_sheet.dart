@@ -49,7 +49,7 @@ class _PointDetailsSheetState extends ConsumerState<_PointDetailsSheet> {
       ..showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.floating,
-          content: Text('Rota iniciada até ${widget.point.name}. Dirija com calma.'),
+          content: Text('Rota iniciada até ${widget.point.name}. Vá com calma e atenção ao trânsito.'),
         ),
       );
   }
@@ -63,7 +63,7 @@ class _PointDetailsSheetState extends ConsumerState<_PointDetailsSheet> {
       ..showSnackBar(
         const SnackBar(
           behavior: SnackBarBehavior.floating,
-          content: Text('Obrigado por avaliar! Isso ajuda outros motoristas.'),
+          content: Text('Obrigado por avaliar! Isso ajuda outros trabalhadores.'),
         ),
       );
   }
@@ -206,7 +206,7 @@ class _StarPicker extends StatelessWidget {
           IconButton(
             onPressed: () => onChanged(i),
             iconSize: 32,
-            padding: const EdgeInsets.symmetric(horizontal: 2),
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxs),
             constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
             icon: Icon(
               i <= value ? Icons.star_rounded : Icons.star_outline_rounded,

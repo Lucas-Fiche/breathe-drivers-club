@@ -104,12 +104,12 @@ class _ScaleButton extends StatelessWidget {
                 child: Text(
                   option.label,
                   style: textTheme.labelLarge?.copyWith(
-                    color: selected ? Colors.white : AppColors.textPrimary,
+                    color: selected ? AppColors.onDark : AppColors.textPrimary,
                   ),
                 ),
               ),
               if (selected)
-                const Icon(Icons.check_rounded, color: Colors.white),
+                const Icon(Icons.check_rounded, color: AppColors.onDark),
             ],
           ),
         ),

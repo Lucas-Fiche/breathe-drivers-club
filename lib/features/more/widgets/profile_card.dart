@@ -61,7 +61,10 @@ class ProfileCard extends ConsumerWidget {
           const SizedBox(height: AppSpacing.lg),
           Row(
             children: <Widget>[
-              Text('${profile.points}', style: textTheme.headlineMedium),
+              AnimatedNumber(
+                value: profile.points,
+                style: textTheme.headlineMedium,
+              ),
               const SizedBox(width: AppSpacing.sm),
               Text('pontos', style: textTheme.bodyLarge),
               const Spacer(),

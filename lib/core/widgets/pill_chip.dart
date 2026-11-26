@@ -23,7 +23,7 @@ class PillChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Color background = selected ? AppColors.primary : AppColors.surface;
-    final Color foreground = selected ? Colors.white : AppColors.textPrimary;
+    final Color foreground = selected ? AppColors.onDark : AppColors.textPrimary;
 
     return Material(
       color: background,
@@ -35,16 +35,24 @@ class PillChip extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         customBorder: const StadiumBorder(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.lg,
-            vertical: AppSpacing.md,
-          ),
-          child: Text(
-            label,
-            style: textTheme.labelLarge?.copyWith(
-              color: foreground,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+        // Área de toque mínima de 48 px (uso com pressa, às vezes com uma mão).
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.lg,
+              vertical: AppSpacing.sm,
+            ),
+            child: Center(
+              widthFactor: 1,
+              heightFactor: 1,
+              child: Text(
+                label,
+                style: textTheme.labelLarge?.copyWith(
+                  color: foreground,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                ),
+              ),
             ),
           ),
         ),

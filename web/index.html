@@ -1,46 +1,104 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
   <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    O valor abaixo é trocado pelo argumento `--base-href` do `flutter build`
+    (ex.: GitHub Pages em /breathe-drivers-club/). Precisa começar e terminar
+    com "/".
   -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Breathe Drivers Club: bem-estar, planejamento de vida e apoio para motoristas e entregadores. Protótipo com dados fictícios.">
+  <meta name="theme-color" content="#0B3B3B">
 
-  <!-- iOS meta tags & icons -->
+  <!-- iOS -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="breathe_drivers_club">
+  <meta name="apple-mobile-web-app-title" content="Breathe">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <!-- Favicon: volante do app (SVG nítido; PNG para navegadores antigos). -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>breathe_drivers_club</title>
+  <title>Breathe Drivers Club</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* Tela de carregamento (splash): fundo primaryDark com o logo, até o
+       primeiro quadro do Flutter. Sem fontes externas, para aparecer na hora. */
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #0B3B3B;
+    }
+    #splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      background: #0B3B3B;
+      color: #E2F5EF;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      transition: opacity 300ms ease-out;
+      z-index: 10;
+    }
+    #splash.hidden { opacity: 0; pointer-events: none; }
+    #splash svg {
+      width: 96px;
+      height: 96px;
+      animation: breathe 3s ease-in-out infinite;
+    }
+    #splash .brand {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+    }
+    #splash .hint {
+      font-size: 13px;
+      color: #CFF3E7;
+      opacity: 0.8;
+    }
+    /* O logo "respira" devagar enquanto carrega. */
+    @keyframes breathe {
+      0%, 100% { transform: scale(0.94); }
+      50% { transform: scale(1.04); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #splash svg { animation: none; }
+    }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+  <div id="splash" role="status" aria-live="polite">
+    <svg viewBox="0 0 50 50" aria-hidden="true">
+      <circle cx="25" cy="25" r="22.25" fill="none" stroke="#E2F5EF" stroke-width="5.5"/>
+      <g stroke="#E2F5EF" stroke-width="4.95" stroke-linecap="round">
+        <line x1="25" y1="25" x2="25" y2="5.5"/>
+        <line x1="25" y1="25" x2="8.11" y2="34.75"/>
+        <line x1="25" y1="25" x2="41.89" y2="34.75"/>
+      </g>
+      <circle cx="25" cy="25" r="8.5" fill="#FE7A59"/>
+    </svg>
+    <div class="brand">BREATHE DRIVERS CLUB</div>
+    <div class="hint">Carregando…</div>
+  </div>
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <script>
+    // Some com a splash quando o Flutter desenha o primeiro quadro.
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('splash');
+      if (!splash) return;
+      splash.classList.add('hidden');
+      setTimeout(function () { splash.remove(); }, 400);
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

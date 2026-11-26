@@ -43,7 +43,7 @@ class DeviceFrame extends StatelessWidget {
                 Text(
                   'Protótipo · dados fictícios',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withValues(alpha: 0.7),
+                        color: AppColors.onDark.withValues(alpha: 0.7),
                       ),
                 ),
               ],
@@ -76,7 +76,7 @@ class _Frame extends StatelessWidget {
         borderRadius: radius,
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.35),
+            color: AppColors.shadow.withValues(alpha: 0.35),
             blurRadius: 40,
             spreadRadius: 4,
             offset: const Offset(0, 20),

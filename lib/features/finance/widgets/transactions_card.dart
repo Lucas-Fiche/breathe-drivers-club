@@ -28,7 +28,7 @@ class TransactionsCard extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
               child: Text(
-                'Nenhuma movimentação ainda. Toque em "Registrar".',
+                'Nenhuma movimentação ainda. Toque em "Registrar ganho ou gasto".',
                 style: textTheme.bodyMedium,
               ),
             )

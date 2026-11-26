@@ -1,11 +1,12 @@
 {
-    "name": "breathe_drivers_club",
-    "short_name": "breathe_drivers_club",
+    "name": "Breathe Drivers Club",
+    "short_name": "Breathe",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#0B3B3B",
+    "theme_color": "#0B3B3B",
+    "description": "Bem-estar, planejamento de vida e apoio para motoristas e entregadores. Protótipo com dados fictícios.",
+    "lang": "pt-BR",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
@@ -30,6 +31,11 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        },
+        {
+            "src": "favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
         }
     ]
 }

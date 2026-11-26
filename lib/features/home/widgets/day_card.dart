@@ -49,10 +49,13 @@ class DayCard extends ConsumerWidget {
           const SizedBox(height: AppSpacing.sm),
           Text(
             nearLimit
-                ? 'Você já está perto de 10h online. Vale pensar em encerrar.'
-                : 'Tempo online hoje, até o limite saudável de 10h.',
+                ? 'Você já está perto de ${HealthLimits.longJourneyHours.round()}h '
+                    'online. Vale pensar em encerrar por hoje.'
+                : 'Tempo online hoje. O ideal é não passar de '
+                    '${HealthLimits.longJourneyHours.round()}h.',
             style: textTheme.bodyMedium?.copyWith(
-              color: nearLimit ? AppColors.coral : AppColors.textSecondary,
+              color: nearLimit ? AppColors.primaryDark : AppColors.textSecondary,
+              fontWeight: nearLimit ? FontWeight.w600 : null,
             ),
           ),
         ],
@@ -80,7 +83,7 @@ class _Stat extends StatelessWidget {
             value,
             style: textTheme.titleLarge?.copyWith(color: AppColors.primary),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: AppSpacing.xxs),
           Text(label, style: textTheme.bodyMedium),
         ],
       ),

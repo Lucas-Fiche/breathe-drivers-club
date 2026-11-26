@@ -31,7 +31,7 @@ class PointsCard extends ConsumerWidget {
                 children: <Widget>[
                   Text('Seus pontos', style: textTheme.titleMedium),
                   const SizedBox(height: AppSpacing.xs),
-                  Text('$points', style: textTheme.displaySmall),
+                  AnimatedNumber(value: points, style: textTheme.displaySmall),
                 ],
               ),
               const SizedBox(width: AppSpacing.lg),
@@ -39,7 +39,7 @@ class PointsCard extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: AppSpacing.xs),
                   child: Text(
-                    'Complete metas e troque os pontos por vantagens.',
+                    'Pausas, metas e o questionário viram pontos para trocar por vantagens.',
                     style: textTheme.bodyMedium
                         ?.copyWith(color: AppColors.textPrimary),
                   ),

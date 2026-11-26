@@ -35,9 +35,9 @@ class AssistantTopic {
   final AssistantAction? action;
 }
 
-/// Mensagem inicial do assistente.
-const String kAssistantGreeting =
-    'Oi, Carlos! Posso ajudar com benefícios, estudos e pausas.';
+/// Mensagem inicial do assistente, com o primeiro nome da pessoa.
+String assistantGreeting(String firstName) =>
+    'Oi, $firstName! Posso ajudar com benefícios, estudos e pausas.';
 
 /// Resposta padrão quando nada corresponde.
 const String kAssistantFallback =
@@ -100,7 +100,7 @@ const Map<String, AssistantTopic> kAssistantTopics = <String, AssistantTopic>{
     id: 'financas',
     chipLabel: 'Finanças',
     response:
-        'No Finanças você vê o que entra, o que sai e o que sobra. Dá para '
+        'Em Finanças você vê o que entra, o que sai e o que sobra. Dá para '
         'separar um pouco no cofrinho a cada recebimento. Pouquinho por dia já '
         'faz diferença.',
     suggestions: <String>['estudos', 'beneficios'],

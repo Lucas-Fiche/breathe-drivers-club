@@ -33,16 +33,11 @@ class PiggyBankCard extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          TweenAnimationBuilder<double>(
-            tween: Tween<double>(begin: 0, end: piggy.balance),
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeOut,
-            builder: (BuildContext context, double value, _) {
-              return Text(
-                formatCurrency(value),
-                style: textTheme.displaySmall,
-              );
-            },
+          AnimatedNumber(
+            value: piggy.balance,
+            format: formatCurrency,
+            style: textTheme.displaySmall,
+            animateOnStart: true,
           ),
           const SizedBox(height: AppSpacing.md),
           ProgressBarLabeled(value: piggy.progress, showPercent: false),

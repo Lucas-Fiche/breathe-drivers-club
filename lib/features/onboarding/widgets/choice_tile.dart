@@ -26,7 +26,7 @@ class ChoiceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final Color background = selected ? AppColors.primary : AppColors.surface;
-    final Color foreground = selected ? Colors.white : AppColors.textPrimary;
+    final Color foreground = selected ? AppColors.onDark : AppColors.textPrimary;
     final BorderRadius radius = BorderRadius.circular(AppRadius.button);
 
     final IconData icon = multiSelect
@@ -65,7 +65,7 @@ class ChoiceTile extends StatelessWidget {
                   const SizedBox(width: AppSpacing.md),
                   Icon(
                     icon,
-                    color: selected ? Colors.white : AppColors.disabled,
+                    color: selected ? AppColors.onDark : AppColors.disabled,
                   ),
                 ],
               ),

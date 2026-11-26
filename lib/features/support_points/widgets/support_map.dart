@@ -121,9 +121,9 @@ class _SupportMapState extends ConsumerState<SupportMap>
     final SupportPoint? active = state.activePointId == null
         ? null
         : state.supportPoints
-            .where((SupportPoint p) => p.id == state.activePointId)
-            .cast<SupportPoint?>()
-            .firstWhere((_) => true, orElse: () => null);
+              .where((SupportPoint p) => p.id == state.activePointId)
+              .cast<SupportPoint?>()
+              .firstWhere((_) => true, orElse: () => null);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -133,41 +133,52 @@ class _SupportMapState extends ConsumerState<SupportMap>
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               final double width = constraints.maxWidth;
-              return GestureDetector(
-                onTapUp: (TapUpDetails d) => _handleTap(d.localPosition, width),
-                child: SizedBox(
-                  height: _mapHeight,
-                  width: width,
-                  child: Stack(
-                    children: <Widget>[
-                      AnimatedBuilder(
-                        animation: Listenable.merge(<Listenable>[_route, _pulse]),
-                        builder: (BuildContext context, _) {
-                          return CustomPaint(
-                            size: Size(width, _mapHeight),
-                            painter: _MapPainter(
-                              points: state.supportPoints,
-                              events: state.events,
-                              showingEvents: widget.showingEvents,
-                              activePointId: widget.showingEvents
-                                  ? null
-                                  : state.activePointId,
-                              selectedEventId: widget.showingEvents
-                                  ? widget.selectedEventId
-                                  : null,
-                              routeProgress: _route.value,
-                              pulse: _pulse.value,
-                            ),
-                          );
-                        },
-                      ),
-                      if (!widget.showingEvents && active != null)
-                        Positioned(
-                          top: AppSpacing.sm,
-                          left: AppSpacing.sm,
-                          child: _RouteLabel(point: active),
+              // O mapa é desenhado; para leitor de tela, a lista de pontos
+              // logo abaixo é a forma de escolher um ponto.
+              return Semantics(
+                label:
+                    'Mapa dos pontos de apoio perto de você. A lista '
+                    'abaixo mostra os mesmos pontos.',
+                child: GestureDetector(
+                  onTapUp: (TapUpDetails d) =>
+                      _handleTap(d.localPosition, width),
+                  child: SizedBox(
+                    height: _mapHeight,
+                    width: width,
+                    child: Stack(
+                      children: <Widget>[
+                        AnimatedBuilder(
+                          animation: Listenable.merge(<Listenable>[
+                            _route,
+                            _pulse,
+                          ]),
+                          builder: (BuildContext context, _) {
+                            return CustomPaint(
+                              size: Size(width, _mapHeight),
+                              painter: _MapPainter(
+                                points: state.supportPoints,
+                                events: state.events,
+                                showingEvents: widget.showingEvents,
+                                activePointId: widget.showingEvents
+                                    ? null
+                                    : state.activePointId,
+                                selectedEventId: widget.showingEvents
+                                    ? widget.selectedEventId
+                                    : null,
+                                routeProgress: _route.value,
+                                pulse: _pulse.value,
+                              ),
+                            );
+                          },
                         ),
-                    ],
+                        if (!widget.showingEvents && active != null)
+                          Positioned(
+                            top: AppSpacing.sm,
+                            left: AppSpacing.sm,
+                            child: _RouteLabel(point: active),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -211,7 +222,7 @@ class _RouteLabel extends StatelessWidget {
       ),
       child: Text(
         'Rota: ${point.name} · ${point.minutes} min',
-        style: textTheme.labelMedium?.copyWith(color: Colors.white),
+        style: textTheme.labelMedium?.copyWith(color: AppColors.onDark),
       ),
     );
   }
@@ -227,7 +238,7 @@ class _Legend extends StatelessWidget {
       children: <Widget>[
         _LegendItem(color: AppColors.coral, label: 'Ponto de apoio'),
         _LegendItem(color: AppColors.primary, label: 'Evento', diamond: true),
-        _LegendItem(color: Color(0xFF3B82F6), label: 'Você'),
+        _LegendItem(color: AppColors.mapYou, label: 'Você'),
       ],
     );
   }
@@ -286,11 +297,6 @@ class _MapPainter extends CustomPainter {
   final double routeProgress;
   final double pulse;
 
-  static const Color _street = Color(0xFFFCFAF6);
-  static const Color _block = Color(0xFFEAE3D7);
-  static const Color _green = Color(0xFFC3E1C6);
-  static const Color _water = Color(0xFFBFE1EC);
-  static const Color _you = Color(0xFF3B82F6);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -301,9 +307,9 @@ class _MapPainter extends CustomPainter {
   }
 
   void _paintCity(Canvas canvas, Size size) {
-    canvas.drawRect(Offset.zero & size, Paint()..color = _street);
+    canvas.drawRect(Offset.zero & size, Paint()..color = AppColors.mapStreet);
 
-    final Paint blockPaint = Paint()..color = _block;
+    final Paint blockPaint = Paint()..color = AppColors.mapBlock;
     const int cols = 4;
     const int rows = 5;
     const double gap = 12;
@@ -333,7 +339,7 @@ class _MapPainter extends CustomPainter {
     );
     canvas.drawRRect(
       RRect.fromRectAndRadius(greenRect, const Radius.circular(14)),
-      Paint()..color = _green,
+      Paint()..color = AppColors.mapGreen,
     );
 
     // Água no canto superior direito.
@@ -345,7 +351,7 @@ class _MapPainter extends CustomPainter {
     );
     canvas.drawRRect(
       RRect.fromRectAndRadius(waterRect, const Radius.circular(22)),
-      Paint()..color = _water,
+      Paint()..color = AppColors.mapWater,
     );
   }
 
@@ -361,7 +367,10 @@ class _MapPainter extends CustomPainter {
       _youFraction.dx * size.width,
       _youFraction.dy * size.height,
     );
-    final Offset target = Offset(dest.mapX * size.width, dest.mapY * size.height);
+    final Offset target = Offset(
+      dest.mapX * size.width,
+      dest.mapY * size.height,
+    );
 
     final Path path = Path()
       ..moveTo(you.dx, you.dy)
@@ -407,12 +416,12 @@ class _MapPainter extends CustomPainter {
   }
 
   void _pin(Canvas canvas, Offset center, Color color) {
-    canvas.drawCircle(center, 11, Paint()..color = Colors.white);
+    canvas.drawCircle(center, 11, Paint()..color = AppColors.onDark);
     canvas.drawCircle(center, 9, Paint()..color = color);
     canvas.drawCircle(
       center,
       3.5,
-      Paint()..color = Colors.white.withValues(alpha: 0.9),
+      Paint()..color = AppColors.onDark.withValues(alpha: 0.9),
     );
   }
 
@@ -420,11 +429,19 @@ class _MapPainter extends CustomPainter {
     canvas.save();
     canvas.translate(center.dx, center.dy);
     canvas.rotate(math.pi / 4);
-    final Rect outer = Rect.fromCenter(center: Offset.zero, width: 22, height: 22);
-    final Rect inner = Rect.fromCenter(center: Offset.zero, width: 18, height: 18);
+    final Rect outer = Rect.fromCenter(
+      center: Offset.zero,
+      width: 22,
+      height: 22,
+    );
+    final Rect inner = Rect.fromCenter(
+      center: Offset.zero,
+      width: 18,
+      height: 18,
+    );
     canvas.drawRRect(
       RRect.fromRectAndRadius(outer, const Radius.circular(4)),
-      Paint()..color = Colors.white,
+      Paint()..color = AppColors.onDark,
     );
     canvas.drawRRect(
       RRect.fromRectAndRadius(inner, const Radius.circular(3)),
@@ -441,10 +458,10 @@ class _MapPainter extends CustomPainter {
     canvas.drawCircle(
       you,
       9 + 11 * pulse,
-      Paint()..color = _you.withValues(alpha: (1 - pulse) * 0.35),
+      Paint()..color = AppColors.mapYou.withValues(alpha: (1 - pulse) * 0.35),
     );
-    canvas.drawCircle(you, 9, Paint()..color = Colors.white);
-    canvas.drawCircle(you, 6.5, Paint()..color = _you);
+    canvas.drawCircle(you, 9, Paint()..color = AppColors.onDark);
+    canvas.drawCircle(you, 6.5, Paint()..color = AppColors.mapYou);
   }
 
   @override

@@ -23,7 +23,8 @@ class _HowToEarnSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    return Padding(
+    // Rolável: com texto ampliado, a lista pode passar da altura do sheet.
+    return SingleChildScrollView(
       padding: EdgeInsets.only(
         left: AppSpacing.xl,
         right: AppSpacing.xl,
@@ -68,9 +69,14 @@ class _HowToEarnSheet extends StatelessWidget {
             points: '+${PointRewards.perSurvey}',
           ),
           const _EarnRow(
+            icon: Icons.mood_rounded,
+            title: 'Registrar como você está',
+            points: '+${PointRewards.perMood} por registro',
+          ),
+          const _EarnRow(
             icon: Icons.event_available_outlined,
-            title: 'Participar de eventos do clube',
-            points: 'pontos no check-in',
+            title: 'Mostrar interesse em eventos do clube',
+            points: '+${PointRewards.perEventInterest} por evento',
           ),
           const SizedBox(height: AppSpacing.lg),
           Container(

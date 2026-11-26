@@ -81,8 +81,8 @@ class _ProgramCard extends StatelessWidget {
         backgroundColor: AppColors.surface,
         title: const Text('Inscrição enviada! 🎉'),
         content: Text(
-          'Recebemos seu interesse em "${program.title}". A ${program.provider} '
-          'vai entrar em contato com os próximos passos.',
+          'Recebemos seu interesse em "${program.title}". A equipe de '
+          '${program.provider} vai entrar em contato com os próximos passos.',
         ),
         actions: <Widget>[
           TextButton(

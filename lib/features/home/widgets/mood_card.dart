@@ -94,23 +94,27 @@ class _MoodResponse extends StatelessWidget {
           ),
           if (offerHelp) ...<Widget>[
             const SizedBox(height: AppSpacing.sm),
-            GestureDetector(
-              onTap: () => context.push('/ajuda'),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Icon(Icons.favorite_rounded,
-                      size: 16, color: AppColors.coral),
-                  const SizedBox(width: AppSpacing.xs),
-                  Text(
-                    'Falar com alguém que pode ajudar',
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: AppColors.coral,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ],
+            // Botão de texto com toque de 48 px; primary sobre branco tem
+            // contraste 5,5:1 (coral ficaria em 2,6:1).
+            TextButton.icon(
+              onPressed: () => context.push('/ajuda'),
+              style: TextButton.styleFrom(
+                minimumSize: const Size(0, 48),
+                padding: EdgeInsets.zero,
+                alignment: Alignment.centerLeft,
+              ),
+              icon: const Icon(
+                Icons.favorite_rounded,
+                size: 18,
+                color: AppColors.coral,
+              ),
+              label: Text(
+                'Falar com alguém que pode ajudar',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
           ],
@@ -124,9 +128,9 @@ class _MoodResponse extends StatelessWidget {
       case Mood.bem:
         return 'Que bom! Aproveite o dia com leveza.';
       case Mood.cansado:
-        return 'Cansaço é sinal de que você vem se dedicando. Que tal uma pausa?';
+        return 'Cansaço é sinal de que o corpo pede uma pausa. Que tal parar um pouco em local seguro?';
       case Mood.estressado:
-        return 'Respira. Dias assim passam. Você não precisa segurar tudo sozinho.';
+        return 'Respira. Dias assim passam. Você não precisa segurar tudo sem ajuda.';
       case Mood.sobrecarregado:
         return 'Dar conta de tudo é pesado. Buscar apoio é cuidar de você.';
     }

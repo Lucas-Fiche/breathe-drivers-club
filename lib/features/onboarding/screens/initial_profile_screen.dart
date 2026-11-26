@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/models/models.dart';
@@ -25,9 +24,9 @@ class InitialProfileScreen extends ConsumerStatefulWidget {
 
 class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
   static const List<String> _workOptions = <String>[
-    'Motorista de carro',
-    'Entregador de moto',
-    'Entregador de bike',
+    'Corridas de carro',
+    'Entregas de moto',
+    'Entregas de bike',
     'Outro',
   ];
   static const List<String> _timeOptions = <String>[
@@ -119,30 +118,30 @@ class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
     final String firstName =
         ref.watch(profileProvider).profile.name.split(' ').first;
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            _TopBar(
-              progress: (_step + 1) / (_questionCount + 1),
-              caption: _isSummary ? null : 'Pergunta ${_step + 1} de $_questionCount',
-              onBack: _back,
+    return BreatheScaffold(
+      title: 'Seu perfil',
+      subtitle: 'Leva menos de 1 minuto. Nada é obrigatório.',
+      onBack: _back,
+      body: Column(
+        children: <Widget>[
+          _ProgressStrip(
+            progress: (_step + 1) / (_questionCount + 1),
+            caption: _isSummary
+                ? 'Resumo'
+                : 'Pergunta ${_step + 1} de $_questionCount',
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: _isSummary ? _buildSummary(firstName) : _buildQuestion(),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(AppSpacing.lg),
-                child: _isSummary
-                    ? _buildSummary(firstName)
-                    : _buildQuestion(),
-              ),
-            ),
-            _BottomBar(
-              label: _isSummary ? 'Começar' : 'Continuar',
-              enabled: _isSummary ? true : _canContinue,
-              onPressed: _isSummary ? _finish : _next,
-            ),
-          ],
-        ),
+          ),
+          _BottomBar(
+            label: _isSummary ? 'Começar' : 'Continuar',
+            enabled: _isSummary ? true : _canContinue,
+            onPressed: _isSummary ? _finish : _next,
+          ),
+        ],
       ),
     );
   }
@@ -151,7 +150,7 @@ class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
     switch (_step) {
       case 0:
         return _SingleChoice(
-          title: 'Você trabalha como?',
+          title: 'Com o que você trabalha?',
           options: _workOptions,
           selected: _work,
           onSelected: (int i) => setState(() => _work = i),
@@ -177,7 +176,7 @@ class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
               const SizedBox(height: AppSpacing.lg),
               const OnboardingHint(
                 text:
-                    'Dez horas na estrada é bastante. Sem julgamento: o Breathe '
+                    'Mais de 10 horas na estrada cansa bastante. Sem julgamento: o Breathe '
                     'está aqui para te ajudar a encaixar pausas e cuidar de '
                     'você ao longo do dia.',
               ),
@@ -228,7 +227,7 @@ class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
         BreatheCard(
           child: Column(
             children: <Widget>[
-              _SummaryRow(label: 'Você trabalha como', value: _valueOf(_workOptions, _work)),
+              _SummaryRow(label: 'Você trabalha com', value: _valueOf(_workOptions, _work)),
               const SizedBox(height: AppSpacing.md),
               _SummaryRow(label: 'Tempo de app', value: _valueOf(_timeOptions, _time)),
               const SizedBox(height: AppSpacing.md),
@@ -242,8 +241,8 @@ class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
           const SizedBox(height: AppSpacing.lg),
           const OnboardingHint(
             text:
-                'Combinado: vamos te lembrar das pausas para você aguentar firme '
-                'sem abrir mão de você.',
+                'Combinado: vamos te lembrar das pausas para o seu dia ficar '
+                'mais leve e mais seguro.',
           ),
         ],
       ],
@@ -254,48 +253,29 @@ class _InitialProfileScreenState extends ConsumerState<InitialProfileScreen> {
       index == null ? '—' : options[index];
 }
 
-/// Barra superior: voltar + progresso + legenda da pergunta.
-class _TopBar extends StatelessWidget {
-  const _TopBar({
-    required this.progress,
-    required this.onBack,
-    this.caption,
-  });
+/// Faixa de progresso abaixo do cabeçalho, com a legenda da etapa.
+class _ProgressStrip extends StatelessWidget {
+  const _ProgressStrip({required this.progress, required this.caption});
 
   final double progress;
-  final VoidCallback onBack;
-  final String? caption;
+  final String caption;
 
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        AppSpacing.sm,
-        AppSpacing.sm,
         AppSpacing.lg,
-        AppSpacing.sm,
+        AppSpacing.lg,
+        AppSpacing.lg,
+        0,
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.arrow_back_rounded),
-            color: AppColors.textPrimary,
-            tooltip: 'Voltar',
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ProgressBarLabeled(value: progress, showPercent: false, height: 8),
-                if (caption != null) ...<Widget>[
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(caption!, style: textTheme.bodyMedium),
-                ],
-              ],
-            ),
-          ),
+          ProgressBarLabeled(value: progress, showPercent: false, height: 8),
+          const SizedBox(height: AppSpacing.sm),
+          Text(caption, style: textTheme.bodyMedium),
         ],
       ),
     );

@@ -15,14 +15,14 @@ abstract final class AppTheme {
 
     const ColorScheme colorScheme = ColorScheme.light(
       primary: AppColors.primary,
-      onPrimary: Colors.white,
+      onPrimary: AppColors.onDark,
       secondary: AppColors.coral,
       onSecondary: AppColors.textPrimary,
       surface: AppColors.surface,
       onSurface: AppColors.textPrimary,
       surfaceContainerHighest: AppColors.mint,
       outline: AppColors.border,
-      error: Color(0xFFC0392B),
+      error: AppColors.error,
     );
 
     return ThemeData(

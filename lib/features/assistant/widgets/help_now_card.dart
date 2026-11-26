@@ -22,8 +22,8 @@ class HelpNowCard extends StatelessWidget {
           Text('Precisa de ajuda agora?', style: textTheme.titleMedium),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            'Se estiver muito estressado ou em dificuldade, fale com um '
-            'profissional.',
+            'Se o estresse estiver pesado ou o dia difícil, fale com um '
+            'profissional. É gratuito e sigiloso.',
             style: textTheme.bodyMedium?.copyWith(color: AppColors.textPrimary),
           ),
           const SizedBox(height: AppSpacing.md),

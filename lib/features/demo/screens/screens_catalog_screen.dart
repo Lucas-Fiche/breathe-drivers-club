@@ -27,7 +27,7 @@ class ScreensCatalogScreen extends StatelessWidget {
         ),
         _CatalogEntry(
           'Perfil inicial',
-          'Primeiros dados do motorista',
+          'Primeiros dados do trabalhador',
           '/perfil-inicial',
         ),
       ],
@@ -188,7 +188,7 @@ class _CatalogTile extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(entry.name, style: textTheme.titleMedium),
-                const SizedBox(height: 2),
+                const SizedBox(height: AppSpacing.xxs),
                 Text(entry.description, style: textTheme.bodyMedium),
               ],
             ),

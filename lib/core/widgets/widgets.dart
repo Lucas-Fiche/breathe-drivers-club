@@ -1,4 +1,5 @@
 // Exporta os componentes base do Design System.
+export 'animated_number.dart';
 export 'breathe_card.dart';
 export 'breathe_header.dart';
 export 'breathe_scaffold.dart';

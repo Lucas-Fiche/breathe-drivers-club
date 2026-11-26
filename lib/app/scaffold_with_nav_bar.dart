@@ -93,19 +93,23 @@ class _NavBar extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: SizedBox(
-          height: 66,
-          child: Row(
-            children: <Widget>[
-              for (int i = 0; i < tabs.length; i++)
-                Expanded(
-                  child: _NavItem(
-                    item: tabs[i],
-                    selected: i == currentIndex,
-                    onTap: () => onTap(i),
+        // Altura mínima de 66; cresce com o texto ampliado (acessibilidade).
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 66),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                for (int i = 0; i < tabs.length; i++)
+                  Expanded(
+                    child: _NavItem(
+                      item: tabs[i],
+                      selected: i == currentIndex,
+                      onTap: () => onTap(i),
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -130,43 +134,53 @@ class _NavItem extends StatelessWidget {
     final Color color =
         selected ? AppColors.primary : AppColors.textSecondary;
 
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        children: <Widget>[
-          // Traço coral acima do item ativo.
-          Container(
-            height: 3,
-            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            decoration: BoxDecoration(
-              color: selected ? AppColors.coral : Colors.transparent,
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(3),
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: item.label,
+      excludeSemantics: true,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            // Traço coral acima do item ativo.
+            Container(
+              height: 3,
+              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              decoration: BoxDecoration(
+                color: selected ? AppColors.coral : AppColors.transparent,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(3),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  selected ? item.activeIcon : item.icon,
-                  color: color,
-                  size: 24,
-                ),
-                const SizedBox(height: 3),
-                Text(
+            const SizedBox(height: AppSpacing.sm),
+            Icon(
+              selected ? item.activeIcon : item.icon,
+              color: color,
+              size: 24,
+            ),
+            const SizedBox(height: AppSpacing.xxs),
+            // Com texto ampliado, o rótulo encolhe para caber na largura da
+            // aba em vez de quebrar ou estourar.
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
                   item.label,
+                  maxLines: 1,
                   style: textTheme.labelMedium?.copyWith(
                     color: color,
-                    fontWeight:
-                        selected ? FontWeight.w600 : FontWeight.w500,
+                    fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: AppSpacing.sm),
+          ],
+        ),
       ),
     );
   }

@@ -54,7 +54,7 @@ class DailyGoalCard extends ConsumerWidget {
     if (progress < 0.5) {
       return 'Bom começo. Siga no seu ritmo.';
     }
-    return 'Bom ritmo. Lembre de fazer pausas ao longo do dia.';
+    return 'Bom ritmo. Lembre-se de fazer pausas ao longo do dia.';
   }
 }
 

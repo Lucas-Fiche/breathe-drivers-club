@@ -48,7 +48,7 @@ class EventTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(event.title, style: textTheme.titleMedium),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSpacing.xxs),
                     Row(
                       children: <Widget>[
                         const Icon(Icons.place_outlined,
@@ -97,12 +97,12 @@ class _DateBox extends StatelessWidget {
         children: <Widget>[
           Text(
             '${date.day}',
-            style: textTheme.titleLarge?.copyWith(color: AppColors.coral),
+            style: textTheme.titleLarge?.copyWith(color: AppColors.primaryDark),
           ),
           Text(
             _monthsShort[date.month - 1],
             style: textTheme.labelMedium?.copyWith(
-              color: AppColors.coral,
+              color: AppColors.primaryDark,
               fontWeight: FontWeight.w700,
             ),
           ),

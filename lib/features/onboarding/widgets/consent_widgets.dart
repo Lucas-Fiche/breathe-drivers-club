@@ -34,7 +34,7 @@ class ConsentSwitches extends StatelessWidget {
           const _ConsentDivider(),
           _ConsentSwitch(
             title: 'Dados de trabalho da plataforma',
-            subtitle: 'Horas, ganhos e aceitação, para apoio e prevenção.',
+            subtitle: 'Horas online, ganhos e corridas aceitas, só para apoio e prevenção.',
             value: consent.shareWorkHours,
             onChanged: (bool v) =>
                 onChanged(consent.copyWith(shareWorkHours: v)),
@@ -118,7 +118,7 @@ class _ConsentSwitch extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
       title: Text(title, style: textTheme.titleMedium),
       subtitle: Padding(
-        padding: const EdgeInsets.only(top: 2),
+        padding: const EdgeInsets.only(top: AppSpacing.xxs),
         child: Text(subtitle, style: textTheme.bodyMedium),
       ),
     );
