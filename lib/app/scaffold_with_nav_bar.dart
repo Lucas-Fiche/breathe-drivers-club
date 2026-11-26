@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,7 +8,10 @@ import 'theme/app_spacing.dart';
 
 /// Shell das 5 abas principais: mantém o estado de cada aba (indexedStack),
 /// a barra inferior customizada e o FAB do Assistente.
-class ScaffoldWithNavBar extends StatelessWidget {
+///
+/// Enquanto a pessoa rola a tela, o FAB fica translúcido para não esconder o
+/// conteúdo; ao parar de rolar, ele volta ao normal depois de um instante.
+class ScaffoldWithNavBar extends StatefulWidget {
   const ScaffoldWithNavBar({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
@@ -39,22 +44,63 @@ class ScaffoldWithNavBar extends StatelessWidget {
     ),
   ];
 
+  @override
+  State<ScaffoldWithNavBar> createState() => _ScaffoldWithNavBarState();
+}
+
+class _ScaffoldWithNavBarState extends State<ScaffoldWithNavBar> {
+  /// Tempo parado (sem rolar) até o FAB voltar a ficar opaco.
+  static const Duration _restoreDelay = Duration(milliseconds: 900);
+
+  bool _scrolling = false;
+  Timer? _restoreTimer;
+
+  @override
+  void dispose() {
+    _restoreTimer?.cancel();
+    super.dispose();
+  }
+
   void _onTap(int index) {
     // Tocar na aba atual volta à raiz dela (initialLocation: true).
-    navigationShell.goBranch(
+    widget.navigationShell.goBranch(
       index,
-      initialLocation: index == navigationShell.currentIndex,
+      initialLocation: index == widget.navigationShell.currentIndex,
     );
+    _setScrolling(false);
+  }
+
+  void _setScrolling(bool value) {
+    _restoreTimer?.cancel();
+    if (_scrolling != value) setState(() => _scrolling = value);
+  }
+
+  bool _onScroll(ScrollNotification notification) {
+    // Só a rolagem vertical do conteúdo (ignora carrosséis horizontais).
+    if (notification.metrics.axis != Axis.vertical) return false;
+    if (notification is ScrollUpdateNotification &&
+        (notification.scrollDelta ?? 0) != 0) {
+      _setScrolling(true);
+    } else if (notification is ScrollEndNotification) {
+      _restoreTimer?.cancel();
+      _restoreTimer = Timer(_restoreDelay, () {
+        if (mounted) _setScrolling(false);
+      });
+    }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: navigationShell,
-      floatingActionButton: const _AssistantFab(),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: _onScroll,
+        child: widget.navigationShell,
+      ),
+      floatingActionButton: _AssistantFab(faded: _scrolling),
       bottomNavigationBar: _NavBar(
-        tabs: _tabs,
-        currentIndex: navigationShell.currentIndex,
+        tabs: ScaffoldWithNavBar._tabs,
+        currentIndex: widget.navigationShell.currentIndex,
         onTap: _onTap,
       ),
     );
@@ -131,8 +177,7 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final Color color =
-        selected ? AppColors.primary : AppColors.textSecondary;
+    final Color color = selected ? AppColors.primary : AppColors.textSecondary;
 
     return Semantics(
       button: true,
@@ -187,19 +232,29 @@ class _NavItem extends StatelessWidget {
 }
 
 /// FAB do Assistente: balão de conversa, fundo primaryDark, ícone mint.
+/// Com [faded], fica translúcido (durante a rolagem), mas continua tocável.
 class _AssistantFab extends StatelessWidget {
-  const _AssistantFab();
+  const _AssistantFab({required this.faded});
+
+  final bool faded;
+
+  /// Opacidade enquanto a pessoa rola a tela.
+  static const double _fadedOpacity = 0.25;
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => context.push('/assistente'),
-      backgroundColor: AppColors.primaryDark,
-      foregroundColor: AppColors.mint,
-      elevation: 2,
-      shape: const CircleBorder(),
-      tooltip: 'Assistente',
-      child: const Icon(Icons.chat_bubble_outline_rounded),
+    return AnimatedOpacity(
+      opacity: faded ? _fadedOpacity : 1,
+      duration: const Duration(milliseconds: 200),
+      child: FloatingActionButton(
+        onPressed: () => context.push('/assistente'),
+        backgroundColor: AppColors.primaryDark,
+        foregroundColor: AppColors.mint,
+        elevation: 2,
+        shape: const CircleBorder(),
+        tooltip: 'Assistente',
+        child: const Icon(Icons.chat_bubble_outline_rounded),
+      ),
     );
   }
 }

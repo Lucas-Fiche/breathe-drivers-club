@@ -62,7 +62,13 @@ class BreatheScaffold extends StatelessWidget {
           Expanded(
             child: scrollable
                 ? SingleChildScrollView(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    // Espaço extra embaixo para o FAB não cobrir o último item.
+                    padding: const EdgeInsets.fromLTRB(
+                      AppSpacing.lg,
+                      AppSpacing.lg,
+                      AppSpacing.lg,
+                      AppSpacing.lg + AppSpacing.fabClearance,
+                    ),
                     child: body,
                   )
                 : body,

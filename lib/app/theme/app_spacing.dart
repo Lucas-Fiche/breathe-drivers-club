@@ -11,6 +11,10 @@ abstract final class AppSpacing {
   static const double xl = 20;
   static const double xxl = 24;
   static const double xxxl = 32;
+
+  /// Espaço extra no fim das telas roláveis para o último item poder subir
+  /// acima do botão flutuante (FAB de 56 + margem).
+  static const double fabClearance = 80;
 }
 
 /// Raios de borda padronizados.

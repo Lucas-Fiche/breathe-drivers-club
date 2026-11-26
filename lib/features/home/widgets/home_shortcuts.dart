@@ -6,39 +6,42 @@ import '../../../app/theme/app_spacing.dart';
 import '../../../core/widgets/widgets.dart';
 
 /// Atalhos do Início: Comunidade, Questionário (com selo "novo") e Pontos de
-/// apoio.
+/// apoio. Os três cards têm sempre a mesma altura (a do maior rótulo).
 class HomeShortcuts extends StatelessWidget {
   const HomeShortcuts({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: _Shortcut(
-            icon: Icons.groups_outlined,
-            label: 'Comunidade',
-            onTap: () => context.push('/comunidade'),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: _Shortcut(
+              icon: Icons.groups_outlined,
+              label: 'Comunidade',
+              onTap: () => context.push('/comunidade'),
+            ),
           ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: _Shortcut(
-            icon: Icons.assignment_outlined,
-            label: 'Questionário',
-            badge: 'novo',
-            onTap: () => context.push('/questionario'),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: _Shortcut(
+              icon: Icons.assignment_outlined,
+              label: 'Questionário',
+              badge: 'novo',
+              onTap: () => context.push('/questionario'),
+            ),
           ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: _Shortcut(
-            icon: Icons.place_outlined,
-            label: 'Pontos de apoio',
-            onTap: () => context.go('/apoio'),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: _Shortcut(
+              icon: Icons.place_outlined,
+              label: 'Pontos de apoio',
+              onTap: () => context.go('/apoio'),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
