@@ -61,7 +61,8 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-/// Avatar com as iniciais do motorista, no canto do cabeçalho.
+/// Avatar com as iniciais, no canto do cabeçalho. Um toque abre `/mais`;
+/// 5 toques rápidos abrem o modo apresentação (gesto escondido).
 class _ProfileAvatar extends StatelessWidget {
   const _ProfileAvatar({required this.initials, required this.onTap});
 
@@ -70,22 +71,24 @@ class _ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.mint,
-      shape: const CircleBorder(),
-      child: InkWell(
+    return Tooltip(
+      message: 'Perfil e mais opções',
+      child: SecretTapDetector(
         onTap: onTap,
-        customBorder: const CircleBorder(),
-        child: SizedBox.square(
-          dimension: 44,
-          child: Center(
-            child: Text(
-              initials,
-              style: const TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+        child: Container(
+          width: 48,
+          height: 48,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            color: AppColors.mint,
+            shape: BoxShape.circle,
+          ),
+          child: Text(
+            initials,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w700,
+                ),
           ),
         ),
       ),

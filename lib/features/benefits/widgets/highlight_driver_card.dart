@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../../data/models/models.dart';
 import '../../../data/providers/providers.dart';
 
 /// Card "Motorista destaque": selo baseado em metas e autocuidado (nunca em
@@ -12,21 +11,12 @@ import '../../../data/providers/providers.dart';
 class HighlightDriverCard extends ConsumerWidget {
   const HighlightDriverCard({super.key});
 
-  /// Quantas "ações de cuidado" fecham o selo do mês (provisório).
-  static const int _target = 25;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    final plan = ref.watch(planProvider);
-    final bool survey = ref.watch(surveyProvider).submitted;
-
-    final int completedSteps = plan.goals
-        .fold<int>(0, (int sum, LifeGoal g) => sum + g.completedSteps);
-    final int value =
-        completedSteps + plan.workDay.breaksTaken + (survey ? 5 : 0);
-    final double progress = (value / _target).clamp(0.0, 1.0);
-    final int missing = (_target - value).clamp(0, _target);
+    final HighlightProgress highlight = ref.watch(highlightProvider);
+    final double progress = highlight.progress;
+    final int missing = highlight.missing;
 
     return BreatheCard(
       child: Column(

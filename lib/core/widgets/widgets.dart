@@ -9,6 +9,7 @@ export 'pill_chip.dart';
 export 'primary_button.dart';
 export 'progress_bar_labeled.dart';
 export 'secondary_button.dart';
+export 'secret_gesture.dart';
 export 'section_title.dart';
 export 'stepper_counter.dart';
 export 'tag_badge.dart';

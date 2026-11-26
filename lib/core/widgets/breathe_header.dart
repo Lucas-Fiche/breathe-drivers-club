@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/theme/app_colors.dart';
 import '../../app/theme/app_spacing.dart';
 import 'breathe_logo.dart';
+import 'secret_gesture.dart';
 
 /// Cabeçalho padrão de tela.
 ///
@@ -67,7 +68,12 @@ class BreatheHeader extends StatelessWidget {
                 _BackButton(onBack: onBack!),
                 const SizedBox(width: AppSpacing.xs),
               ],
-              const BreatheLogo(size: 26),
+              // Toque longo no logo: gesto escondido (modo apresentação).
+              GestureDetector(
+                onLongPress: () =>
+                    SecretGestureScope.maybeOf(context)?.call(context),
+                child: const BreatheLogo(size: 26),
+              ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
                 child: Text(

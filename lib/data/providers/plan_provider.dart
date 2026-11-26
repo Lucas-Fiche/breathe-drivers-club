@@ -111,6 +111,14 @@ class PlanNotifier extends Notifier<PlanState> {
     ref.read(profileProvider.notifier).addPoints(PointRewards.perMood);
   }
 
+  /// Atualiza as horas online de hoje (nunca negativo). No protótipo, usado
+  /// pelo modo apresentação; na versão real, viria da plataforma.
+  void setOnlineHours(double hours) {
+    state = state.copyWith(
+      workDay: state.workDay.copyWith(onlineHours: hours < 0 ? 0 : hours),
+    );
+  }
+
   /// Registra uma pausa (reforço positivo). Credita pontos.
   void registerBreak() {
     final WorkDay w = state.workDay;
