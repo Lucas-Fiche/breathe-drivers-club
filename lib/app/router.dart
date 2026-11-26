@@ -110,7 +110,9 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: '/beneficios',
               builder: (BuildContext context, GoRouterState state) =>
-                  const BenefitsScreen(),
+                  BenefitsScreen(
+                initialFilter: state.uri.queryParameters['filtro'],
+              ),
             ),
           ],
         ),

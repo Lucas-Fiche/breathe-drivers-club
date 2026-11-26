@@ -22,13 +22,19 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Sem expandir, a largura é definida pelo conteúdo (o tema força largura
+    // infinita, o que estoura quando o botão fica numa Row sem Expanded).
+    final ButtonStyle? style =
+        expand ? null : ElevatedButton.styleFrom(minimumSize: const Size(0, 52));
     final Widget button = icon == null
         ? ElevatedButton(
             onPressed: onPressed,
+            style: style,
             child: Text(label),
           )
         : ElevatedButton.icon(
             onPressed: onPressed,
+            style: style,
             icon: Icon(icon, size: 20),
             label: Text(label),
           );

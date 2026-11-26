@@ -334,4 +334,18 @@ void main() {
       expect(c.read(surveyProvider).answerFor(qId), 4);
     });
   });
+
+  group('benefícios — filtro por slug da rota', () {
+    test('slug válido vira categoria; inválido/nulo vira nulo', () {
+      expect(BenefitCategoryX.fromSlug('estudos'), BenefitCategory.estudos);
+      expect(BenefitCategoryX.fromSlug('financas'), BenefitCategory.financas);
+      expect(BenefitCategoryX.fromSlug('xpto'), isNull);
+      expect(BenefitCategoryX.fromSlug(null), isNull);
+    });
+
+    test('rótulos em português', () {
+      expect(BenefitCategory.saude.label, 'Saúde');
+      expect(BenefitCategory.financas.label, 'Finanças');
+    });
+  });
 }

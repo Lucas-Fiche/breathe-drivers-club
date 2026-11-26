@@ -1,6 +1,34 @@
 /// Categoria de um benefício/parceria.
 enum BenefitCategory { trabalho, saude, estudos, financas }
 
+extension BenefitCategoryX on BenefitCategory {
+  /// Rótulo em português para exibição.
+  String get label {
+    switch (this) {
+      case BenefitCategory.trabalho:
+        return 'Trabalho';
+      case BenefitCategory.saude:
+        return 'Saúde';
+      case BenefitCategory.estudos:
+        return 'Estudos';
+      case BenefitCategory.financas:
+        return 'Finanças';
+    }
+  }
+
+  /// Chave usada em query parameters da rota (ex.: `?filtro=estudos`).
+  String get slug => name;
+
+  /// Converte um slug de rota numa categoria (nulo se não corresponder).
+  static BenefitCategory? fromSlug(String? slug) {
+    if (slug == null) return null;
+    for (final BenefitCategory c in BenefitCategory.values) {
+      if (c.name == slug) return c;
+    }
+    return null;
+  }
+}
+
 /// Benefício oferecido por um parceiro fictício, resgatável com pontos.
 class Benefit {
   const Benefit({

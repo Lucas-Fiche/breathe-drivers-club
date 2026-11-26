@@ -47,7 +47,7 @@ class AssistantTipCard extends ConsumerWidget {
           const SizedBox(height: AppSpacing.lg),
           PrimaryButton(
             label: 'Ver programas',
-            onPressed: () => context.go('/beneficios?categoria=${tip.filter}'),
+            onPressed: () => context.go('/beneficios?filtro=${tip.filter}'),
           ),
         ],
       ),
