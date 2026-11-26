@@ -24,6 +24,25 @@ class SurveyState {
   bool get isComplete =>
       questions.isNotEmpty && answers.length == questions.length;
 
+  /// Pontuação de uma dimensão, de 0 a 1 (média das respostas, com itens
+  /// invertidos espelhados). Nula se nenhum item da dimensão foi respondido.
+  ///
+  /// 1 = "muito" da dimensão (ex.: Fadiga 1 = muita fadiga; Sono 1 = dorme
+  /// bem). Quem decide se alto é bom ou ruim é a tela de resultado.
+  double? scoreFor(SurveyDimension dimension) {
+    double total = 0;
+    int count = 0;
+    for (final SurveyQuestion q in questions) {
+      if (q.dimension != dimension) continue;
+      final int? index = answerFor(q.id);
+      if (index == null) continue;
+      final double value = index / 4;
+      total += q.reversed ? 1 - value : value;
+      count++;
+    }
+    return count == 0 ? null : total / count;
+  }
+
   /// Índice escolhido para uma pergunta (nulo se ainda não respondida).
   int? answerFor(String questionId) {
     for (final SurveyAnswer a in answers) {

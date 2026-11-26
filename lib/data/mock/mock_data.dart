@@ -1,5 +1,6 @@
 import '../models/models.dart';
-import 'survey_questions.dart';
+// Itens provisórios do questionário: fonte única em features/survey.
+import '../../features/survey/survey_items.dart';
 
 /// Fonte única de dados fictícios do protótipo.
 ///
@@ -621,7 +622,7 @@ final PersonaData _carlos = PersonaData(
   supportPoints: _supportPoints,
   events: _events,
   posts: _posts,
-  surveyQuestions: kSurveyQuestions,
+  surveyQuestions: kSurveyItems,
 );
 
 // ---------------------------------------------------------------------------
@@ -780,5 +781,5 @@ final PersonaData _joana = PersonaData(
   supportPoints: _supportPoints,
   events: _events,
   posts: _posts,
-  surveyQuestions: kSurveyQuestions,
+  surveyQuestions: kSurveyItems,
 );
