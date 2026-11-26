@@ -15,16 +15,19 @@ const Size kLargePhone = Size(430, 932);
 bool _fontsLoaded = false;
 
 /// Registra fontes reais (sem rede) para os testes medirem texto de verdade:
-/// a Roboto do SDK do Flutter como família "Inter" (métricas parecidas; a
+/// a Roboto de `test/fonts/` como família "Inter" (métricas parecidas; a
 /// Inter é um pouco mais larga, por isso os testes também rodam com texto
-/// ampliado) e os ícones do Material.
+/// ampliado).
+///
+/// As fontes ficam no repositório para funcionar igual em qualquer máquina,
+/// inclusive no GitHub Actions. Os ícones não precisam de fonte: o tamanho do
+/// ícone é o mesmo com ou sem ela, e é o tamanho que os testes medem.
 Future<void> loadAppFonts() async {
   AppTypography.useGoogleFonts = false;
   if (_fontsLoaded) return;
-  final String dir = _materialFontsDir();
 
   Future<ByteData> read(String name) async => ByteData.sublistView(
-    Uint8List.fromList(await File('$dir/$name').readAsBytes()),
+    Uint8List.fromList(await File('test/fonts/$name').readAsBytes()),
   );
 
   final FontLoader inter = FontLoader(AppTypography.fontFamily)
@@ -32,9 +35,6 @@ Future<void> loadAppFonts() async {
     ..addFont(read('roboto-medium.ttf'))
     ..addFont(read('roboto-bold.ttf'));
   await inter.load();
-  final FontLoader icons = FontLoader('MaterialIcons')
-    ..addFont(read('materialicons-regular.otf'));
-  await icons.load();
   _fontsLoaded = true;
 }
 
@@ -95,18 +95,4 @@ Future<void> scrollToEnd(WidgetTester tester, {bool settle = true}) async {
 Future<void> unmountApp(WidgetTester tester) async {
   await tester.pumpWidget(const SizedBox.shrink());
   await tester.pump(const Duration(seconds: 1));
-}
-
-/// Pasta das fontes do Material no SDK: usa FLUTTER_ROOT ou sobe a partir do
-/// executável de teste (que fica dentro de bin/cache/artifacts).
-String _materialFontsDir() {
-  const String rel = 'bin/cache/artifacts/material_fonts';
-  final String? root = Platform.environment['FLUTTER_ROOT'];
-  if (root != null && Directory('$root/$rel').existsSync()) return '$root/$rel';
-  Directory d = File(Platform.resolvedExecutable).parent;
-  while (d.parent.path != d.path) {
-    if (Directory('${d.path}/$rel').existsSync()) return '${d.path}/$rel';
-    d = d.parent;
-  }
-  throw StateError('Fontes do Material não encontradas no SDK do Flutter.');
 }
