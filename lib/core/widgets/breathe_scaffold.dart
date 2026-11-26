@@ -20,6 +20,7 @@ class BreatheScaffold extends StatelessWidget {
     this.showHelp = true,
     this.scrollable = false,
     this.floatingActionButton,
+    this.onBack,
   });
 
   final String title;
@@ -30,6 +31,7 @@ class BreatheScaffold extends StatelessWidget {
   final bool showHelp;
   final bool scrollable;
   final Widget? floatingActionButton;
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class BreatheScaffold extends StatelessWidget {
             action: action,
             onHelp: effectiveOnHelp,
             showHelp: showHelp,
+            onBack: onBack,
           ),
           Expanded(
             child: scrollable

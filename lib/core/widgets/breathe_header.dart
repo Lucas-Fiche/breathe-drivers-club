@@ -21,7 +21,11 @@ class BreatheHeader extends StatelessWidget {
     this.action,
     this.onHelp,
     this.showHelp = true,
+    this.onBack,
   });
+
+  /// Se informado, mostra um botão de voltar à esquerda da marca.
+  final VoidCallback? onBack;
 
   final String title;
   final String? subtitle;
@@ -59,6 +63,10 @@ class BreatheHeader extends StatelessWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
+              if (onBack != null) ...<Widget>[
+                _BackButton(onBack: onBack!),
+                const SizedBox(width: AppSpacing.xs),
+              ],
               const BreatheLogo(size: 26),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
@@ -89,6 +97,25 @@ class BreatheHeader extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+/// Botão de voltar, à esquerda da marca.
+class _BackButton extends StatelessWidget {
+  const _BackButton({required this.onBack});
+
+  final VoidCallback onBack;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: onBack,
+      iconSize: 24,
+      constraints: const BoxConstraints(minWidth: 44, minHeight: 44),
+      tooltip: 'Voltar',
+      padding: EdgeInsets.zero,
+      icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
     );
   }
 }
