@@ -1,0 +1,75 @@
+# Publica o protótipo (Flutter web) no GitHub Pages a cada push na main.
+#
+# Link: https://lucas-fiche.github.io/breathe-drivers-club/
+#
+# Antes de publicar, roda `flutter analyze` e `flutter test`: se algo falhar,
+# o link continua com a última versão boa.
+#
+# Requisito (uma vez só): Settings > Pages > Source: GitHub Actions.
+
+name: Publicar protótipo (web)
+
+on:
+  push:
+    branches: [main]
+  # Permite rodar manualmente pela aba Actions.
+  workflow_dispatch:
+
+# Permissões mínimas para publicar no Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Só uma publicação por vez; uma nova cancela a que ainda está na fila.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Testar e gerar o site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar o Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.41.4
+          cache: true
+
+      - name: Instalar dependências
+        run: flutter pub get
+
+      - name: Analisar o código
+        run: flutter analyze
+
+      - name: Rodar os testes
+        run: flutter test
+
+      - name: Gerar o site
+        # O base-href é o nome do repositório (o site fica em /<repo>/).
+        run: flutter build web --release --base-href /breathe-drivers-club/
+
+      - name: Preparar o GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Enviar o site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    name: Publicar no GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
