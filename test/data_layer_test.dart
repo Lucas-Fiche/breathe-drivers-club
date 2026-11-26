@@ -335,6 +335,43 @@ void main() {
     });
   });
 
+  group('apoio', () {
+    test('interesse em evento alterna e soma/retira pontos simbólicos', () {
+      final ProviderContainer c = makeContainer();
+      final String eventId = c.read(supportProvider).events.first.id;
+      final int points = c.read(profileProvider).profile.points;
+
+      c.read(supportProvider.notifier).toggleEventInterest(eventId);
+      expect(c.read(supportProvider).isInterested(eventId), isTrue);
+      expect(
+        c.read(profileProvider).profile.points,
+        points + PointRewards.perEventInterest,
+      );
+
+      c.read(supportProvider.notifier).toggleEventInterest(eventId);
+      expect(c.read(supportProvider).isInterested(eventId), isFalse);
+      expect(c.read(profileProvider).profile.points, points);
+    });
+
+    test('iniciar rota marca o ponto ativo', () {
+      final ProviderContainer c = makeContainer();
+      final String id = c.read(supportProvider).supportPoints.first.id;
+      c.read(supportProvider.notifier).startRoute(id);
+      expect(c.read(supportProvider).activePointId, id);
+    });
+
+    test('avaliar ponto grava estrelas; fora de 1–5 é ignorado', () {
+      final ProviderContainer c = makeContainer();
+      final String id = c.read(supportProvider).supportPoints.first.id;
+
+      c.read(supportProvider.notifier).rateSupportPoint(id, 4);
+      expect(c.read(supportProvider).ratingFor(id), 4);
+
+      c.read(supportProvider.notifier).rateSupportPoint(id, 9);
+      expect(c.read(supportProvider).ratingFor(id), 4);
+    });
+  });
+
   group('benefícios — filtro por slug da rota', () {
     test('slug válido vira categoria; inválido/nulo vira nulo', () {
       expect(BenefitCategoryX.fromSlug('estudos'), BenefitCategory.estudos);
