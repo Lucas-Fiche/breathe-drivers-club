@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/app_spacing.dart';
+import '../../../core/utils/navigation.dart';
 import '../../../core/widgets/widgets.dart';
 import '../assistant_script.dart';
 import '../widgets/chat_bubble.dart';
@@ -50,14 +51,6 @@ class _AssistantScreenState extends State<AssistantScreen> {
     _input.dispose();
     _scroll.dispose();
     super.dispose();
-  }
-
-  void _leave() {
-    if (context.canPop()) {
-      context.pop();
-    } else {
-      context.go('/inicio');
-    }
   }
 
   void _navigate(String route) {
@@ -153,7 +146,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
       title: 'Assistente',
       subtitle: 'Tire dúvidas e organize seu plano',
       showHelp: false,
-      onBack: _leave,
+      onBack: () => popOrGo(context),
       body: Column(
         children: <Widget>[
           Expanded(

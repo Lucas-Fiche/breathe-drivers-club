@@ -67,4 +67,42 @@ void main() {
       expect(formatDuration(const Duration(minutes: 45)), '45min');
     });
   });
+
+  group('formatTimeAgo', () {
+    final DateTime now = DateTime(2026, 11, 25, 15);
+
+    test('menos de um minuto é agora', () {
+      expect(
+        formatTimeAgo(now.subtract(const Duration(seconds: 20)), now: now),
+        'agora',
+      );
+    });
+
+    test('minutos e horas', () {
+      expect(
+        formatTimeAgo(now.subtract(const Duration(minutes: 5)), now: now),
+        'há 5 min',
+      );
+      expect(
+        formatTimeAgo(now.subtract(const Duration(hours: 3)), now: now),
+        'há 3h',
+      );
+    });
+
+    test('ontem, dias e data a partir de uma semana', () {
+      expect(formatTimeAgo(DateTime(2026, 11, 24, 9), now: now), 'ontem');
+      expect(formatTimeAgo(DateTime(2026, 11, 21, 9), now: now), 'há 4 dias');
+      expect(formatTimeAgo(DateTime(2026, 11, 10), now: now), '10 de nov');
+    });
+  });
+
+  group('initialsOf', () {
+    test('nome e sobrenome', () => expect(initialsOf('Carlos Souza'), 'CS'));
+    test(
+      'usa o último sobrenome',
+      () => expect(initialsOf('Ana Maria Lima'), 'AL'),
+    );
+    test('um nome só', () => expect(initialsOf('rita'), 'R'));
+    test('vazio', () => expect(initialsOf('  '), '?'));
+  });
 }

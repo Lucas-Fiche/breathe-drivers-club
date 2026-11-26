@@ -11,6 +11,10 @@ import 'survey_questions.dart';
 final DateTime _today = DateTime(2026, 11, 25);
 
 DateTime _dAgo(int days) => _today.subtract(Duration(days: days));
+
+/// Horas atrás em relação ao relógio real. Usado só nos posts, para o feed
+/// sempre mostrar "há 3h", "ontem" etc. no dia da apresentação.
+DateTime _hAgo(int hours) => DateTime.now().subtract(Duration(hours: hours));
 DateTime _dAhead(int days) => _today.add(Duration(days: days));
 
 /// Pacote completo de dados de uma persona.
@@ -165,8 +169,7 @@ final List<StudyProgram> _studyPrograms = <StudyProgram>[
   const StudyProgram(
     id: 'sp-tecnicos',
     title: 'Cursos técnicos e de especialização',
-    description:
-        'Trilhas curtas de qualificação com certificado reconhecido.',
+    description: 'Trilhas curtas de qualificação com certificado reconhecido.',
     provider: 'Rede Qualifica',
   ),
   const StudyProgram(
@@ -273,94 +276,165 @@ final List<Event> _events = <Event>[
 ];
 
 /// 8 posts de comunidade, com tom real e respeitoso.
+///
 final List<CommunityPost> _posts = <CommunityPost>[
   CommunityPost(
     id: 'p1',
     author: 'Marcos A.',
-    category: 'Conquista',
+    authorType: DriverType.motorista,
+    category: PostCategory.conquista,
     text:
         'Consegui tirar meu primeiro domingo de folga em meses. O mundo não '
         'acabou e voltei melhor na segunda.',
     likes: 42,
-    comments: 8,
-    date: _dAgo(1),
+    date: _hAgo(3),
+    comments: <PostComment>[
+      PostComment(
+        author: 'Rita S.',
+        text: 'Que bom! Descanso também é trabalho bem feito.',
+        date: _hAgo(2),
+      ),
+      PostComment(
+        author: 'Pedro H.',
+        text: 'Vou tentar fazer isso no próximo domingo.',
+        date: _hAgo(1),
+      ),
+    ],
   ),
   CommunityPost(
     id: 'p2',
     author: 'Rita S.',
-    category: 'Dica',
+    authorType: DriverType.motorista,
+    category: PostCategory.dica,
     text:
         'Deixo uma garrafa de água gelada e uma fruta sempre no carro. Ajuda a '
         'não parar em qualquer lanchonete.',
     likes: 31,
-    comments: 5,
-    date: _dAgo(2),
+    date: _hAgo(9),
+    comments: <PostComment>[
+      PostComment(
+        author: 'Sandra R.',
+        text: 'Faço igual! Uma bolsa térmica pequena resolve.',
+        date: _hAgo(8),
+      ),
+    ],
   ),
   CommunityPost(
     id: 'p3',
     author: 'João P.',
-    category: 'Pergunta',
+    authorType: DriverType.entregador,
+    category: PostCategory.pontoDeApoio,
     text:
         'Alguém conhece um ponto de apoio com banheiro aberto de madrugada na '
         'Asa Norte?',
     likes: 12,
-    comments: 9,
-    date: _dAgo(2),
+    date: _hAgo(26),
+    comments: <PostComment>[
+      PostComment(
+        author: 'Marcos A.',
+        text: 'O Posto Aurora da 710 Norte fica aberto 24h.',
+        date: _hAgo(26),
+      ),
+      PostComment(
+        author: 'Aline M.',
+        text: 'No app, a aba Apoio mostra os pontos abertos agora.',
+        date: _hAgo(26),
+      ),
+      PostComment(author: 'João P.', text: 'Valeu, pessoal!', date: _hAgo(26)),
+    ],
   ),
   CommunityPost(
     id: 'p4',
     author: 'Fernanda L.',
-    category: 'Desabafo',
+    authorType: DriverType.entregador,
+    category: PostCategory.desabafo,
     text:
         'Dia difícil, muita chuva e pouca corrida. Bom saber que tem gente '
         'passando pelo mesmo e se apoiando por aqui.',
     likes: 55,
-    comments: 14,
-    date: _dAgo(3),
+    date: _hAgo(50),
+    comments: <PostComment>[
+      PostComment(
+        author: 'Rita S.',
+        text: 'Força! Amanhã é outro dia.',
+        date: _hAgo(50),
+      ),
+      PostComment(
+        author: 'Carlos S.',
+        text: 'Passei pelo mesmo. Respira e se cuida.',
+        date: _hAgo(50),
+      ),
+    ],
   ),
   CommunityPost(
     id: 'p5',
     author: 'Carlos S.',
-    category: 'Dica',
+    authorType: DriverType.motorista,
+    category: PostCategory.dica,
     text:
         'Faço uma pausa de 5 minutos a cada 2 horas. Parece pouco, mas minha '
         'coluna agradece no fim do dia.',
     likes: 38,
-    comments: 6,
-    date: _dAgo(4),
+    date: _hAgo(74),
+    comments: <PostComment>[
+      PostComment(
+        author: 'Fernanda L.',
+        text: 'Comecei a fazer e senti diferença já na primeira semana.',
+        date: _hAgo(74),
+      ),
+    ],
   ),
   CommunityPost(
     id: 'p6',
     author: 'Aline M.',
-    category: 'Conquista',
+    authorType: DriverType.motorista,
+    category: PostCategory.conquista,
     text:
         'Terminei mais um módulo do ensino médio pelo programa do clube. '
         'Faltam dois!',
     likes: 61,
-    comments: 11,
-    date: _dAgo(5),
+    date: _hAgo(98),
+    comments: <PostComment>[
+      PostComment(
+        author: 'Marcos A.',
+        text: 'Parabéns! Isso inspira a gente.',
+        date: _hAgo(98),
+      ),
+      PostComment(
+        author: 'Sandra R.',
+        text: 'Que orgulho! Falta pouco.',
+        date: _hAgo(98),
+      ),
+    ],
   ),
   CommunityPost(
     id: 'p7',
     author: 'Pedro H.',
-    category: 'Dica',
+    authorType: DriverType.entregador,
+    category: PostCategory.dica,
     text:
         'Separo 10 reais por dia no cofrinho. Em um mês já deu pra fazer a '
         'revisão da moto.',
     likes: 27,
-    comments: 4,
-    date: _dAgo(6),
+    date: _hAgo(122),
   ),
   CommunityPost(
     id: 'p8',
     author: 'Sandra R.',
-    category: 'Desabafo',
+    authorType: DriverType.entregador,
+    category: PostCategory.desabafo,
     text:
         'Às vezes a gente esquece de cuidar da gente. Esse app me lembrou de '
         'respirar hoje. Obrigada.',
     likes: 49,
-    comments: 7,
-    date: _dAgo(7),
+    date: _hAgo(146),
+    comments: <PostComment>[
+      PostComment(
+        author: 'Aline M.',
+        text: 'Obrigada por compartilhar. Cuidar de si vem primeiro.',
+        date: _hAgo(146),
+      ),
+    ],
   ),
 ];
 
@@ -599,9 +673,7 @@ final PersonaData _joana = PersonaData(
     breaksTaken: 1,
     lastBreak: _today.subtract(const Duration(hours: 2, minutes: 10)),
   ),
-  moods: <MoodEntry>[
-    MoodEntry(mood: Mood.bem, date: _today),
-  ],
+  moods: <MoodEntry>[MoodEntry(mood: Mood.bem, date: _today)],
   transactions: <Transaction>[
     // Ganhos (Entregas) — total R$ 3.200.
     Transaction(

@@ -25,38 +25,52 @@ class CommunityNotifier extends Notifier<CommunityState> {
     return CommunityState(posts: repo.loadPosts(persona));
   }
 
-  /// Publica um novo post, assinado pela pessoa ativa.
-  void publish({required String text, required String category}) {
-    final String trimmed = text.trim();
+  /// Limite de caracteres de uma publicação.
+  static const int maxLength = 500;
+
+  /// Publica um novo post no topo do feed, assinado pela pessoa ativa.
+  /// Texto vazio é ignorado; acima de [maxLength] é cortado.
+  void publish({required String text, required PostCategory category}) {
+    String trimmed = text.trim();
     if (trimmed.isEmpty) return;
-    final String author = ref.read(profileProvider).profile.name;
+    if (trimmed.length > maxLength) trimmed = trimmed.substring(0, maxLength);
+    final UserProfile profile = ref.read(profileProvider).profile;
     final CommunityPost post = CommunityPost(
       id: 'post-${DateTime.now().microsecondsSinceEpoch}',
-      author: author,
+      author: profile.name,
+      authorType: profile.type,
       category: category,
       text: trimmed,
       likes: 0,
-      comments: 0,
       date: DateTime.now(),
     );
-    state = state.copyWith(
-      posts: <CommunityPost>[post, ...state.posts],
-    );
+    state = state.copyWith(posts: <CommunityPost>[post, ...state.posts]);
   }
 
   /// Alterna a curtida de um post.
   void toggleLike(String postId) {
-    final List<CommunityPost> updated = <CommunityPost>[
-      for (final CommunityPost p in state.posts)
-        if (p.id == postId)
-          p.copyWith(
-            liked: !p.liked,
-            likes: p.liked ? p.likes - 1 : p.likes + 1,
-          )
-        else
-          p,
-    ];
-    state = state.copyWith(posts: updated);
+    _update(
+      postId,
+      (CommunityPost p) => p.copyWith(
+        liked: !p.liked,
+        likes: p.liked ? p.likes - 1 : p.likes + 1,
+      ),
+    );
+  }
+
+  /// Marca o post como denunciado (no protótipo, só registra localmente;
+  /// na versão real iria para a moderação).
+  void report(String postId) {
+    _update(postId, (CommunityPost p) => p.copyWith(reported: true));
+  }
+
+  void _update(String postId, CommunityPost Function(CommunityPost) change) {
+    state = state.copyWith(
+      posts: <CommunityPost>[
+        for (final CommunityPost p in state.posts)
+          if (p.id == postId) change(p) else p,
+      ],
+    );
   }
 }
 

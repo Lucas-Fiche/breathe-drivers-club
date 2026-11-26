@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../app/theme/app_spacing.dart';
+import '../../../core/utils/formatters.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../data/providers/providers.dart';
 import '../widgets/breathe_break_card.dart';
@@ -28,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
       title: '${_greeting()}, $firstName',
       subtitle: 'Vamos fazer um dia equilibrado',
       action: _ProfileAvatar(
-        initials: _initials(ref.watch(profileProvider).profile.name),
+        initials: initialsOf(ref.watch(profileProvider).profile.name),
         onTap: () => context.push('/mais'),
       ),
       scrollable: true,
@@ -57,14 +58,6 @@ class HomeScreen extends ConsumerWidget {
     if (hour < 12) return 'Bom dia';
     if (hour < 18) return 'Boa tarde';
     return 'Boa noite';
-  }
-
-  String _initials(String name) {
-    final List<String> parts =
-        name.trim().split(RegExp(r'\s+')).where((String p) => p.isNotEmpty).toList();
-    if (parts.isEmpty) return '?';
-    if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
-    return (parts.first.substring(0, 1) + parts.last.substring(0, 1)).toUpperCase();
   }
 }
 

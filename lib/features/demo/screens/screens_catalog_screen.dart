@@ -42,7 +42,7 @@ class ScreensCatalogScreen extends StatelessWidget {
       title: 'Outras telas',
       entries: <_CatalogEntry>[
         _CatalogEntry('Assistente', 'Ajuda roteirizada', '/assistente'),
-        _CatalogEntry('Comunidade', 'Espaço entre motoristas', '/comunidade'),
+        _CatalogEntry('Comunidade', 'Troca entre trabalhadores', '/comunidade'),
         _CatalogEntry('Questionário', 'Pesquisa semestral', '/questionario'),
         _CatalogEntry('Pausa guiada', 'Um minuto para respirar', '/inicio/pausa'),
         _CatalogEntry('Ajuda', 'Acolhimento e canais', '/ajuda'),
@@ -57,6 +57,11 @@ class ScreensCatalogScreen extends StatelessWidget {
           'Resultado do questionário',
           'Devolutiva da pesquisa',
           '/questionario/resultado',
+        ),
+        _CatalogEntry(
+          'Atendimento psicológico',
+          'Simulação de conexão',
+          '/ajuda/psicologo',
         ),
         _CatalogEntry(
           'Componentes',

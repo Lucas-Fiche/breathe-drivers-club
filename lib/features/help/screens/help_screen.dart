@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../app/theme/app_spacing.dart';
+import '../../../core/utils/navigation.dart';
 import '../../../core/widgets/widgets.dart';
+import '../widgets/emergency_section.dart';
+import '../widgets/help_cards.dart';
+import '../widgets/schedule_card.dart';
 
-/// Tela Ajuda / acolhimento (`/ajuda`) — placeholder da Fase 2.
+/// Tela Ajuda / acolhimento (`/ajuda`). Tom calmo: verde e branco, coral só
+/// no botão principal, nada de vermelho alarmante.
 ///
 /// Não mostra o próprio ícone de Ajuda no cabeçalho (evita o laço para si
 /// mesma).
@@ -11,15 +17,26 @@ class HelpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BreatheScaffold(
-      title: 'Ajuda e acolhimento',
-      subtitle: 'Estamos aqui com você',
+    return BreatheScaffold(
+      title: 'Ajuda',
+      subtitle: 'Você não está sozinho',
       showHelp: false,
-      body: EmptyState(
-        title: 'Em construção',
-        message: 'Os canais de acolhimento serão montados em breve. '
-            'Se precisar falar agora, procure um profissional de confiança.',
-        icon: Icons.favorite_rounded,
+      onBack: () => popOrGo(context),
+      scrollable: true,
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          TalkNowCard(),
+          SizedBox(height: AppSpacing.md),
+          ScheduleCard(),
+          SizedBox(height: AppSpacing.md),
+          QuickExerciseCard(),
+          SizedBox(height: AppSpacing.xxl),
+          EmergencySection(),
+          SizedBox(height: AppSpacing.lg),
+          HelpPrivacyNote(),
+          SizedBox(height: AppSpacing.lg),
+        ],
       ),
     );
   }

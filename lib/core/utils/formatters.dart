@@ -89,3 +89,33 @@ String formatDuration(Duration duration) {
   }
   return '${hours}h${minutes.toString().padLeft(2, '0')}';
 }
+
+/// Tempo relativo curto para feeds: `agora`, `há 5 min`, `há 3h`, `ontem`,
+/// `há 4 dias` ou, a partir de uma semana, `25 de nov`.
+String formatTimeAgo(DateTime date, {DateTime? now}) {
+  final DateTime reference = now ?? DateTime.now();
+  final Duration diff = reference.difference(date);
+  if (diff.inMinutes < 1) return 'agora';
+  if (diff.inMinutes < 60) return 'há ${diff.inMinutes} min';
+  if (diff.inHours < 24) return 'há ${diff.inHours}h';
+  final DateTime today =
+      DateTime(reference.year, reference.month, reference.day);
+  final DateTime day = DateTime(date.year, date.month, date.day);
+  final int days = today.difference(day).inDays;
+  if (days <= 1) return 'ontem';
+  if (days < 7) return 'há $days dias';
+  return '${date.day} de ${_monthsShort[date.month - 1]}';
+}
+
+/// Iniciais de um nome para avatares: `Carlos Souza` → `CS`, `Rita` → `R`.
+String initialsOf(String name) {
+  final List<String> parts = name
+      .trim()
+      .split(RegExp(r'\s+'))
+      .where((String p) => p.isNotEmpty)
+      .toList();
+  if (parts.isEmpty) return '?';
+  if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
+  return (parts.first.substring(0, 1) + parts.last.substring(0, 1))
+      .toUpperCase();
+}

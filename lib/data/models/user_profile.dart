@@ -1,6 +1,18 @@
 /// Tipo de trabalhador atendido pelo app.
 enum DriverType { motorista, entregador }
 
+extension DriverTypeX on DriverType {
+  /// Rótulo em português (ex.: "Motorista").
+  String get label {
+    switch (this) {
+      case DriverType.motorista:
+        return 'Motorista';
+      case DriverType.entregador:
+        return 'Entregador';
+    }
+  }
+}
+
 /// Perfil do trabalhador (dados fictícios, em memória).
 class UserProfile {
   const UserProfile({

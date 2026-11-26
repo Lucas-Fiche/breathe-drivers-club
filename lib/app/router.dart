@@ -7,6 +7,7 @@ import '../features/community/screens/community_screen.dart';
 import '../features/demo/screens/components_gallery_screen.dart';
 import '../features/demo/screens/screens_catalog_screen.dart';
 import '../features/finance/screens/finance_screen.dart';
+import '../features/help/screens/connecting_screen.dart';
 import '../features/help/screens/help_screen.dart';
 import '../features/home/screens/break_screen.dart';
 import '../features/home/screens/home_screen.dart';
@@ -146,6 +147,14 @@ final GoRouter appRouter = GoRouter(
       path: '/ajuda',
       builder: (BuildContext context, GoRouterState state) =>
           const HelpScreen(),
+      routes: <RouteBase>[
+        // Simulação do atendimento com psicólogo.
+        GoRoute(
+          path: 'psicologo',
+          builder: (BuildContext context, GoRouterState state) =>
+              const ConnectingScreen(),
+        ),
+      ],
     ),
     GoRoute(
       path: '/mais',

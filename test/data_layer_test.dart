@@ -252,18 +252,47 @@ void main() {
 
       c
           .read(communityProvider.notifier)
-          .publish(text: 'Primeiro dia de folga!', category: 'Conquista');
+          .publish(
+            text: 'Primeiro dia de folga!',
+            category: PostCategory.conquista,
+          );
 
       final CommunityState s = c.read(communityProvider);
       expect(s.posts.length, before + 1);
       expect(s.posts.first.author, 'Carlos Souza');
       expect(s.posts.first.text, 'Primeiro dia de folga!');
+      expect(s.posts.first.authorType, DriverType.motorista);
+      expect(s.posts.first.category, PostCategory.conquista);
+      expect(s.posts.first.commentCount, 0);
+    });
+
+    test('post acima de 500 caracteres é cortado no limite', () {
+      final ProviderContainer c = makeContainer();
+      c.read(communityProvider.notifier).publish(
+            text: 'a' * 600,
+            category: PostCategory.dica,
+          );
+      expect(
+        c.read(communityProvider).posts.first.text.length,
+        CommunityNotifier.maxLength,
+      );
+    });
+
+    test('denunciar marca só o post escolhido', () {
+      final ProviderContainer c = makeContainer();
+      final List<CommunityPost> posts = c.read(communityProvider).posts;
+      c.read(communityProvider.notifier).report(posts[1].id);
+      final List<CommunityPost> after = c.read(communityProvider).posts;
+      expect(after[1].reported, isTrue);
+      expect(after[0].reported, isFalse);
     });
 
     test('post vazio é ignorado', () {
       final ProviderContainer c = makeContainer();
       final int before = c.read(communityProvider).posts.length;
-      c.read(communityProvider.notifier).publish(text: '   ', category: 'Dica');
+      c
+          .read(communityProvider.notifier)
+          .publish(text: '   ', category: PostCategory.dica);
       expect(c.read(communityProvider).posts.length, before);
     });
 
